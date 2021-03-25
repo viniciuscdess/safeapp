@@ -17,6 +17,8 @@ import EditarLembrete from './src/pages/Lembretes/editar';
 const  Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+
+
 const icons = {
   Home:{
     name:'home'
