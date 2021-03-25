@@ -75,15 +75,14 @@ async function handleDeleteSucess(key,data) {
         barStyle='dark-content'
         translucent={true}
       />
-
-      <View style={styles.header}>
+       <View style={styles.header}>
 
         <View style={styles.viewTexto}> 
           <Text style={styles.textoHeader}>Clientes</Text>
         </View>
-        
 
-        
+
+
 
         <View style={styles.viewBotao}> 
         <TouchableOpacity style={styles.botao} onPress={cadastrar}>
@@ -91,6 +90,7 @@ async function handleDeleteSucess(key,data) {
         </TouchableOpacity>
         </View>
       </View>
+     
 
 
       {loading ? 
@@ -98,6 +98,8 @@ async function handleDeleteSucess(key,data) {
             <ActivityIndicator color='#121212' size={45} />
         ):
         (
+          
+
           <View style={styles.viewLista}>
           <FlatList
             keyExtractor={item => item.key}

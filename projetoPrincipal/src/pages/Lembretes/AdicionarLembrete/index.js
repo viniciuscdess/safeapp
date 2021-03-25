@@ -5,6 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 
 import firebase from '../../../services/firebaseConection';
+import Listagem from '../../Clientes/ListagemClientes';
 
 
 
@@ -12,14 +13,17 @@ import firebase from '../../../services/firebaseConection';
 
 console.disableYellowBox=true;
 
-export default function App({route}) {
+export default function App({route, data}) {
   const navigation = useNavigation();
 
   const [lembrete, setLembrete] = useState('');
   const chaveCliente = route.params?.key;
+  const [ble, setBle] = "jbkjj";
+  const name = route.params?.nome;
+  //const nome = route.params?.nome;
 
 
-   async function salvar(data){
+   async function salvar(){
     if(lembrete !== ''){
 
       let lembretes = await firebase.database().ref('lembretes');
@@ -42,11 +46,15 @@ export default function App({route}) {
 
 
 
+
+
  return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}> 
+     
       <View style={styles.container}>
         <ScrollView //tirar a barra de rolagem 
         showsVerticalScrollIndicator={false} >
+          
         <StatusBar
           backgroundColor='transparent'
           barStyle='light-content'
@@ -61,12 +69,16 @@ export default function App({route}) {
             </View>
 
             <View style={styles.viewTextoPrincipal}>
-              <Text style={styles.tituloPrincipal}>AdicionarLembrete</Text>
+              <Text style={styles.tituloPrincipal}>Adicionar Lembrete</Text>
+              
             </View>
           </View>
 
             <View style={styles.viewInput}>
-            <Text style={styles.titulos}>Digite seu Lembrete:</Text>
+            <Text style={styles.titulos}>Adicionar um Lembrete Para</Text> 
+            <Text style={styles.titulos}>  {name}  </Text>
+        
+            
               <TextInput
                 multiline = {true}
                 numberOfLines = {4}
@@ -79,13 +91,13 @@ export default function App({route}) {
                 autoCapitalize = 'sentences'
               />
           </View>
-
+          
           <View style={styles.viewBotao}>
               <TouchableOpacity style={styles.botao} onPress={salvar}> 
                 <Text style={styles.botaoTexto}>SALVAR</Text>
               </TouchableOpacity>
             </View>
-
+            
         </ScrollView>
       </View>
     </TouchableWithoutFeedback>
@@ -123,7 +135,10 @@ const styles = StyleSheet.create({
     fontSize:28,
     color:'#333333',
     fontWeight:'bold',
-    margin:10
+    marginRight:10,
+    marginLeft:10,
+    marginBottom:10,
+    marginTop:5
   },
   viewInput:{
     alignItems:'center',

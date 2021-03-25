@@ -56,8 +56,8 @@ export default function Editar({route}) {
     navigation.navigate('Clientes');
   }
 
-  function lembrete() {
-    navigation.navigate('AdicionarLembrete'  ,{key: chave});
+  function lembrete(data) {
+    navigation.navigate('AdicionarLembrete'  ,{key: chave, nome: nome});
   }
 
  return (
