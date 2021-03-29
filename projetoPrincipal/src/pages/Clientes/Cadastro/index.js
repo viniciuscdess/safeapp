@@ -51,7 +51,6 @@ export default function App() {
  
         // let chave esta criando uma key aleatoria que nunca vai se repertir
         let chave = clientes.push().key;
-        alert('3');
         clientes.child(chave).set({
           nome: nome,
           senha: senha,
