@@ -91,20 +91,20 @@ export default function App({route, data}) {
               />
 
                        
-              <DatePicker
-                style={{
-                width:'90%',
-                marginLeft:15,
-                marginBottom:10,
-                backgroundColor:'#fff',
-                marginTop:10}}
-                format="DD-MM-YYYY"
-                minDate="01-01-1920"
-                maxDate="31-12-2021"
-                onDateChange={setDate}
-                date={date}
-                value={date}
-              />
+            <DatePicker
+              style={{
+              width:'90%',
+              marginLeft:15,
+              marginBottom:10,
+              backgroundColor:'#fff',
+              marginTop:10}}
+              format="DD-MM-YYYY"
+              minDate="01-01-1920"
+              maxDate="31-12-2021"
+              onDateChange={setDate}
+              date={date}
+              value={date}
+            />
             
           </View>
           

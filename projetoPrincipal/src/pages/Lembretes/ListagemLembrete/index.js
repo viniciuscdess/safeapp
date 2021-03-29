@@ -28,7 +28,7 @@ return (
         <View style={styles.areaTextoNome} >
           <Text style={styles.textoNome2}> Cliente:</Text>
           <Text style={styles.textoNome}> {data.nome} </Text>
-
+          <Text style={styles.textoNome}> {data.dataLembrete} </Text>
           <TouchableOpacity onPress={() => ver(data)} style={styles.botao}>
                 <Icon name="arrow-right" color="#000" size={30}/>
           </TouchableOpacity>            

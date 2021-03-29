@@ -9,15 +9,17 @@ import firebase from '../../../services/firebaseConection';
 import AdicionarLembrete from '../AdicionarLembrete';
 import ListagemLembrete from '../ListagemLembrete';
 import Listagem from '../../Clientes/ListagemClientes/index';
+import { format, isToday, startOfToday } from 'date-fns';
 
 export default function ListNotes() {
   const navigation        = useNavigation();  
   const [mostrar, setMostrar] = useState();
- 
+  const [newDate, setNewDate] = useState( new Date());
   const [client, setClient] = useState([]);
   const [loading2, setLoading2] = useState(true);
   const [loading, setLoading] = useState(true);
   const [lembrete, setLembrete] = useState([]);
+  var hojeMaior = format(newDate, 'dd-MM-yyyy');
   var j = 0;
 
 
@@ -43,8 +45,9 @@ export default function ListNotes() {
 
  //busca as notas
   useEffect( () => {          
+    alert(hojeMaior);
       async function dados() {             
-          await firebase.database().ref('lembretes').on('value', (snapshot)=> {
+          await firebase.database().ref('lembretes').startAt(hojeMaior.toString()).orderByChild('date').on('value', (snapshot)=> {
             setLembrete([]);
               snapshot.forEach( (childItem) => {             
                   let data = {                        
@@ -52,19 +55,21 @@ export default function ListNotes() {
                    //   nome: retornaNome(childItem.key,childItem.val().idcliente,childItem.val().note),
                       nome: retornaNome(childItem.val().idCliente),
                       lembrete: childItem.val().lembrete,
+                      dataLembrete: childItem.val().date,
                                              
                   }; 
                    
                   setLembrete(oldArray => [...oldArray, data]);
               })
               setLoading(false);
-          })
+          }) 
       }    
       dados();
-  }, [client]);
+  }, [client]); 
 
   
-  function retornaNome(idCliente){              
+  function retornaNome(idCliente){   
+         
       for(var i=0; i < client.length; i++) {
           if(client[i].key === idCliente) {
               if (j === 0){
@@ -96,10 +101,6 @@ export default function ListNotes() {
 
   async function handleDeleteSucess(key) {
     await firebase.database().ref('lembretes').child(key).remove();
-  }
-
-  function abrirData(){
-    setMostrar(true);
   }
 
 return (
