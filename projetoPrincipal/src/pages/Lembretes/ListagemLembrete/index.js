@@ -15,8 +15,9 @@ export default function Listagem({ data, deleteItem }) {
 return (
   <TouchableWithoutFeedback onLongPress={() => deleteItem(data.key)}> 
     <View style={styles.container}>
+     
         <View style={styles.componente}>
-
+   
         
         <View  style={styles.areaTexto}>
           

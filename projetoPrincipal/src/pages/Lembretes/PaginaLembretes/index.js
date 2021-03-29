@@ -1,30 +1,28 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, ScrollView, StatusBar, FlatList, TextInput, ActivityIndicator, Alert  } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {useNavigation} from '@react-navigation/native';
+import DatePicker from 'react-native-datepicker';
 
 import firebase from '../../../services/firebaseConection';
 import AdicionarLembrete from '../AdicionarLembrete';
 import ListagemLembrete from '../ListagemLembrete';
 import Listagem from '../../Clientes/ListagemClientes/index';
 
-
-
 export default function ListNotes() {
   const navigation        = useNavigation();  
-  const [notes, setNotes] = useState([]);
+  const [mostrar, setMostrar] = useState();
+ 
   const [client, setClient] = useState([]);
   const [loading2, setLoading2] = useState(true);
   const [loading, setLoading] = useState(true);
-
   const [lembrete, setLembrete] = useState([]);
   var j = 0;
 
 
  //busca os clientes
  useEffect( () => {      
-
       async function dados2() {            
           await firebase.database().ref('clientes').on('value', (snapshot)=> {
               setClient([]);
@@ -43,7 +41,6 @@ export default function ListNotes() {
       //alert("Você tem :" + client.length + " notas!!");
   }, []);
 
-    
  //busca as notas
   useEffect( () => {          
       async function dados() {             
@@ -54,14 +51,13 @@ export default function ListNotes() {
                       key: childItem.key,
                    //   nome: retornaNome(childItem.key,childItem.val().idcliente,childItem.val().note),
                       nome: retornaNome(childItem.val().idCliente),
-                      lembrete: childItem.val().lembrete                         
+                      lembrete: childItem.val().lembrete,
+                                             
                   }; 
                    
                   setLembrete(oldArray => [...oldArray, data]);
               })
-             
               setLoading(false);
-
           })
       }    
       dados();
@@ -102,6 +98,10 @@ export default function ListNotes() {
     await firebase.database().ref('lembretes').child(key).remove();
   }
 
+  function abrirData(){
+    setMostrar(true);
+  }
+
 return (
 <ScrollView showsVerticalScrollIndicator={false}>
   <View style={styles.container}>
@@ -115,13 +115,15 @@ return (
       <View style={styles.header}>
         <Text style={styles.textoHeader}> Lembretes</Text>
       </View>
-      
-      
+
+     
       {loading2 ? 
         (
             <ActivityIndicator color='#121212' size={45} />
         ):
         (
+        
+
           <FlatList
             keyExtractor={item => item.key}
             data={lembrete}            
@@ -129,6 +131,7 @@ return (
           />
         )
         }
+
 
   </View>
  </ScrollView> 
@@ -145,6 +148,19 @@ header:{
   justifyContent:'center',
   paddingTop: 0 + getStatusBarHeight(),
 },
+viewData:{
+  alignItems:'center',
+  margin:10,
+  flexDirection:'row',
+  justifyContent:'center',
+  borderBottomWidth:1,
+  borderColor:'#16A085'
+},
+textoData:{
+  fontSize:28,
+  fontWeight:'bold',
+  color:'#000'
+},  
 textoHeader:{
   fontSize:40,
   fontWeight:'bold',

@@ -3,11 +3,11 @@ import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, Status
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
-
+import {format} from 'date-fns';
 import firebase from '../../../services/firebaseConection';
 import Listagem from '../../Clientes/ListagemClientes';
 
-
+import DatePicker from 'react-native-datepicker';
 
 
 
@@ -15,7 +15,7 @@ console.disableYellowBox=true;
 
 export default function App({route, data}) {
   const navigation = useNavigation();
-
+  const [date, setDate] = useState();
   const [lembrete, setLembrete] = useState('');
   const chaveCliente = route.params?.key;
   const [ble, setBle] = "jbkjj";
@@ -31,7 +31,8 @@ export default function App({route, data}) {
 
       lembretes.child(chave).set({
         lembrete: lembrete,
-        idCliente: chaveCliente
+        idCliente: chaveCliente,
+        date: date
       });
 
       alert('Lembrete adicionado com sucesso!' );
@@ -77,8 +78,6 @@ export default function App({route, data}) {
             <View style={styles.viewInput}>
             <Text style={styles.titulos}>Adicionar um Lembrete Para</Text> 
             <Text style={styles.titulos}>  {name}  </Text>
-        
-            
               <TextInput
                 multiline = {true}
                 numberOfLines = {4}
@@ -90,6 +89,23 @@ export default function App({route, data}) {
                 onChangeText={(texto) => setLembrete(texto)}
                 autoCapitalize = 'sentences'
               />
+
+                       
+              <DatePicker
+                style={{
+                width:'90%',
+                marginLeft:15,
+                marginBottom:10,
+                backgroundColor:'#fff',
+                marginTop:10}}
+                format="DD-MM-YYYY"
+                minDate="01-01-1920"
+                maxDate="31-12-2021"
+                onDateChange={setDate}
+                date={date}
+                value={date}
+              />
+            
           </View>
           
           <View style={styles.viewBotao}>
