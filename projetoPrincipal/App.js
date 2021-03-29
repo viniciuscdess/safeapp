@@ -22,7 +22,7 @@ const icons = {
     name:'home'
   },
   Clientes:{
-    name:'list'
+    name:'users'
   },
   Lembretes:{
     name:'edit'
