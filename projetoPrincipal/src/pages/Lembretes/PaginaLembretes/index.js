@@ -45,7 +45,6 @@ export default function ListNotes() {
 
  //busca as notas
   useEffect( () => {          
-    alert(hojeMaior);
       async function dados() {             
           await firebase.database().ref('lembretes').startAt(hojeMaior.toString()).orderByChild('date').on('value', (snapshot)=> {
             setLembrete([]);
