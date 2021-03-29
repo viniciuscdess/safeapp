@@ -55,7 +55,7 @@ export default function Home() {
 
         <View style={styles.viewTexto}> 
           <Text style={styles.texto}>
-            Seja Bem-Vinda!!
+           Welcome!!!
           </Text>
           <Text style={styles.textoNome}>{nome}</Text>
 
