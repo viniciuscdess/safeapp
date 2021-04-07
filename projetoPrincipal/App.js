@@ -25,7 +25,7 @@ const icons = {
     name:'users'
   },
   Lembretes:{
-    name:'edit'
+    name:'list-alt'
   },
 };
 

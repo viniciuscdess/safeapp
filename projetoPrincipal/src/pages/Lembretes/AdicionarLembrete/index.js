@@ -1,40 +1,41 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, StatusBar, FlatList, Keyboard, TouchableWithoutFeedback, Button} from 'react-native';
+import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, StatusBar, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
-import {format} from 'date-fns';
-import firebase from '../../../services/firebaseConection';
-import Listagem from '../../Clientes/ListagemClientes';
-
 import DatePicker from 'react-native-datepicker';
 
-
+import firebase from '../../../services/firebaseConection';
+import Listagem from '../../Clientes/ListagemClientes';
+import { format, getTime, parseISO ,isAfter,  formatRelative, 
+  formatDistance,
+  isEqual,} from 'date-fns';
+ 
 
 console.disableYellowBox=true;
 
-export default function App({route, data}) {
+export default function App({ route }) {
   const navigation = useNavigation();
   const [date, setDate] = useState();
   const [lembrete, setLembrete] = useState('');
   const chaveCliente = route.params?.key;
-  const [ble, setBle] = "jbkjj";
   const name = route.params?.nome;
-  //const nome = route.params?.nome;
 
+  const [newDate, setNewDate] = useState();
+  //var hojeMaior = format( newDate, 'dd-MM-yyyy');
+  //let novaData = new Date();
+  //alert(novaData.getTime());
+  //alert(newDate.getTime()); 
 
-   async function salvar(){
+  async function salvar(){
     if(lembrete !== ''){
-
       let lembretes = await firebase.database().ref('lembretes');
       let chave = lembretes.push().key;
-
       lembretes.child(chave).set({
         lembrete: lembrete,
         idCliente: chaveCliente,
         date: date
       });
-
       alert('Lembrete adicionado com sucesso!' );
       setLembrete('');
     }
@@ -45,22 +46,15 @@ export default function App({route, data}) {
     navigation.navigate('Editar')
   }
 
-
-
-
-
- return (
+  return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}> 
-     
       <View style={styles.container}>
         <ScrollView //tirar a barra de rolagem 
-        showsVerticalScrollIndicator={false} >
-          
+        showsVerticalScrollIndicator={false}>
         <StatusBar
           backgroundColor='transparent'
           barStyle='light-content'
-          translucent={true}
-        />
+          translucent={true}/>
 
           <View style={styles.header}>
             <View style={styles.viewVoltar}>
@@ -71,26 +65,23 @@ export default function App({route, data}) {
 
             <View style={styles.viewTextoPrincipal}>
               <Text style={styles.tituloPrincipal}>Adicionar Lembrete</Text>
-              
             </View>
           </View>
 
-            <View style={styles.viewInput}>
-            <Text style={styles.titulos}>Adicionar um Lembrete Para</Text> 
-            <Text style={styles.titulos}>  {name}  </Text>
-              <TextInput
-                multiline = {true}
-                numberOfLines = {4}
-                maxLength={50}
-                style={styles.input}
-                underlineColorAndroid='transparent'
-                placeholder='Ex: Ligar para o João'
-                value={lembrete}
-                onChangeText={(texto) => setLembrete(texto)}
-                autoCapitalize = 'sentences'
-              />
-
-                       
+          <View style={styles.viewInput}>
+              <Text style={styles.titulos}>Adicionar um Lembrete Para</Text> 
+              <Text style={styles.titulos}>  {name}  </Text>
+            <TextInput
+              multiline = {true}
+              numberOfLines = {4}
+              maxLength={50}
+              style={styles.input}
+              underlineColorAndroid='transparent'
+              placeholder='Ex: Ligar para o João'
+              value={lembrete}
+              onChangeText={(texto) => setLembrete(texto)}
+              autoCapitalize = 'sentences'
+            />      
             <DatePicker
               style={{
               width:'90%',
@@ -102,17 +93,17 @@ export default function App({route, data}) {
               minDate="01-01-1920"
               maxDate="31-12-2021"
               onDateChange={setDate}
+              mode="date"
               date={date}
               value={date}
             />
-            
           </View>
           
           <View style={styles.viewBotao}>
-              <TouchableOpacity style={styles.botao} onPress={salvar}> 
-                <Text style={styles.botaoTexto}>SALVAR</Text>
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity style={styles.botao} onPress={salvar}> 
+              <Text style={styles.botaoTexto}>SALVAR</Text>
+            </TouchableOpacity>
+          </View>
             
         </ScrollView>
       </View>

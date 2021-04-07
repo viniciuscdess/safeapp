@@ -99,14 +99,18 @@ async function handleDeleteSucess(key,data) {
         ):
         (
           
+          <View style={styles.containerLista}>
+         
 
-          <View style={styles.viewLista}>
-          <FlatList
-            keyExtractor={item => item.key}
-            data={clientes}
-            renderItem={({item}) => ( <Listagem data={item} deleteItem={handleDelete} /> )}
-          />
-        </View>
+             <View style={styles.viewLista}>
+              <FlatList
+                keyExtractor={item => item.key}
+                data={clientes}
+                renderItem={({item}) => ( <Listagem data={item} deleteItem={handleDelete} /> )}
+              />
+            </View>
+          </View>
+         
         )
         }
 
@@ -135,12 +139,10 @@ const styles = StyleSheet.create({
     fontWeight:'bold',
     color:'#fff',
     justifyContent:'center',
-    
   },
   viewBotao:{
     justifyContent:'center',
     marginLeft:80,
-    
   },
   botao:{
     height:35,
@@ -154,6 +156,14 @@ const styles = StyleSheet.create({
     fontSize:20,
     fontWeight:'bold',
     color:'#293241'
+  },
+  containerLista:{
+  
+  },
+  viewLetra:{
+    backgroundColor:'#16A085',
+    width:'10%',
+    borderRadius:100
   },
   viewTexto:{
    marginLeft:120,

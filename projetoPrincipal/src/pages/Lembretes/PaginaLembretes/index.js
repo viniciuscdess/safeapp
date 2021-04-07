@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, ScrollView, StatusBar, FlatList, TextInput, ActivityIndicator, Alert  } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text ,ScrollView, StatusBar, FlatList, TextInput, ActivityIndicator, Alert  } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {useNavigation} from '@react-navigation/native';
@@ -9,21 +9,24 @@ import firebase from '../../../services/firebaseConection';
 import AdicionarLembrete from '../AdicionarLembrete';
 import ListagemLembrete from '../ListagemLembrete';
 import Listagem from '../../Clientes/ListagemClientes/index';
-import { format, isToday, startOfToday } from 'date-fns';
+import { format, getTime, parseISO ,isAfter,  formatRelative, 
+  formatDistance,
+  isEqual,} from 'date-fns';
+
+import pt from 'date-fns/locale/pt';
 
 export default function ListNotes() {
-  const navigation        = useNavigation();  
-  const [mostrar, setMostrar] = useState();
-  const [newDate, setNewDate] = useState( new Date());
+
+  const navigation = useNavigation();  
   const [client, setClient] = useState([]);
   const [loading2, setLoading2] = useState(true);
   const [loading, setLoading] = useState(true);
   const [lembrete, setLembrete] = useState([]);
-  var hojeMaior = format(newDate, 'dd-MM-yyyy');
   var j = 0;
+  const newDate = new Date();
+  const hoje = format(newDate , 'dd-MM-yyyy')
 
-
- //busca os clientes
+ //busca os clientes 
  useEffect( () => {      
       async function dados2() {            
           await firebase.database().ref('clientes').on('value', (snapshot)=> {
@@ -40,22 +43,18 @@ export default function ListNotes() {
           })
       }    
       dados2();
-      //alert("Você tem :" + client.length + " notas!!");
   }, []);
 
- //busca as notas
-  useEffect( () => {          
+  useEffect( () => {
       async function dados() {             
-          await firebase.database().ref('lembretes').startAt(hojeMaior.toString()).orderByChild('date').on('value', (snapshot)=> {
+          await firebase.database().ref('lembretes').startAt(hoje).orderByChild('date').on('value', (snapshot)=> {
             setLembrete([]);
-              snapshot.forEach( (childItem) => {             
+              snapshot.forEach( (childItem) => {  
                   let data = {                        
                       key: childItem.key,
-                   //   nome: retornaNome(childItem.key,childItem.val().idcliente,childItem.val().note),
                       nome: retornaNome(childItem.val().idCliente),
                       lembrete: childItem.val().lembrete,
-                      dataLembrete: childItem.val().date,
-                                             
+                      date: childItem.val().date,                         
                   }; 
                    
                   setLembrete(oldArray => [...oldArray, data]);
@@ -139,6 +138,7 @@ return (
 } 
 const styles = StyleSheet.create({
 container:{
+  flex:1,
   backgroundColor:'#fff',
 },
 header:{

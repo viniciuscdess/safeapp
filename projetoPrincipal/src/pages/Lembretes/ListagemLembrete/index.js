@@ -11,29 +11,39 @@ export default function Listagem({ data, deleteItem }) {
   function ver(){
     navigation.navigate('EditarLembrete', {key:data.key, lembrete:data.lembrete})
   }
-
+//{data.dataLembrete.slice(0,2)}
 return (
   <TouchableWithoutFeedback onLongPress={() => deleteItem(data.key)}> 
     <View style={styles.container}>
-     
-        <View style={styles.componente}>
-   
-        
-        <View  style={styles.areaTexto}>
-          
-          <Text style={styles.texto}>{data.lembrete}</Text>
-          
-        </View>
 
-        <View style={styles.areaTextoNome} >
-          <Text style={styles.textoNome2}> Cliente:</Text>
-          <Text style={styles.textoNome}> {data.nome} </Text>
-          <Text style={styles.textoNome}> {data.dataLembrete} </Text>
-          <TouchableOpacity onPress={() => ver(data)} style={styles.botao}>
-                <Icon name="arrow-right" color="#000" size={30}/>
-          </TouchableOpacity>            
+        <View style={styles.componente}>
+          <View style={styles.viewLetra}>
+            
+            <Text style={styles.letra}>A</Text>
+          </View>
+          
+
+          <View  style={styles.areaTexto}>
+          <Text style={styles.texto}>{data.lembrete}</Text>
+    
+            <View style={styles.areaTextoNome}>
+              
+                
+                <Text style={styles.textoNome}> {data.nome} </Text>
+                
+            </View>
+            <Text style={styles.textoNome}> {data.date} </Text>
+          </View>
+
+
+
+          <View style={styles.viewBotaoVer}>
+            <TouchableOpacity onPress={() => ver(data)}>
+                    <Icon name="chevron-right" color="#000" size={30}/>
+            </TouchableOpacity>  
+          </View>
+
         </View> 
-        </View>
     </View>
   </TouchableWithoutFeedback>
   )
@@ -43,55 +53,61 @@ const styles = StyleSheet.create({
   container:{
     flex:1,
     backgroundColor:'#fff',
-    alignItems:'center',
-    marginTop:14,
+    marginBottom:5
   },
   componente:{
-    width:'100%'
+    flexDirection:'row',
+    borderBottomWidth:1,
+    width:'100%',
+    marginBottom:5,
+    padding:5,
+    alignItems:'center'
   },
   areaTexto:{
     backgroundColor:'#fff',
-    width:'100%',
-    alignItems:'center',
-    justifyContent:'space-between',
-    flexDirection:'row',
-    paddingLeft:5,
-    paddingRight:5,
-    
-    
+    paddingBottom:5,
+    width:'77%',
   },
   texto:{
-    fontSize:25,
+    fontSize:18,
     fontWeight:'bold',
     color:'#333333',
-    paddingLeft:5,
-    
+    paddingLeft:3
   },
   areaTextoNome:{
-    backgroundColor:'#fff',
-    width:'100%',
-    alignItems:'center',
-    flexDirection:'row',
-    paddingLeft:5,
-    paddingTop:2,
-    borderBottomWidth:1,
-    borderColor:'#333333',
-    
+    width:'77%',
+    flexDirection:'row'
   },
   textoNome2:{
     fontWeight:'bold',
-    fontSize:18,
+    fontSize:12,
     color:'#293241',
-    paddingLeft:5,
     
   },
   textoNome:{
-    fontSize:18,
+    fontSize:12,
     color:'#293241',
-    
-    
   },
   botao:{
     padding:2
   },
+  containerLista:{
+    flexDirection:'row',
+    justifyContent:'space-between'
+  },
+  viewLetra:{
+    backgroundColor:'#82E0AA',
+    width:'14%',
+    borderRadius:100,
+    alignItems:'center',
+    justifyContent:'center',
+    margin:4,
+    height:55
+  },
+  letra:{
+    fontSize:30,
+    color:'#000',
+    padding:2,
+    fontWeight:'bold'
+  }
 });

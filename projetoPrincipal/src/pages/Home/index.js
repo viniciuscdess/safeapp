@@ -134,8 +134,7 @@ useEffect( () => {
           translucent={true}
         />
 
-        {
-        nome ?
+        { nome ?
         <View>
         <View style={styles.viewTexto}> 
           <Text style={styles.texto}>Olá,</Text>
@@ -170,7 +169,7 @@ useEffect( () => {
           <Text style={styles.textoInput}>DIGITE SEU NOME:</Text>
           <TextInput
             placeholder='digite seu nome'
-            style={styles.Input}
+            style={styles.input}
             value={input}
             onChangeText={(texto) => setInput(texto)}
             underlineColorAndroid='transparent'
@@ -181,10 +180,6 @@ useEffect( () => {
           </TouchableOpacity>
         </View>
       }
-        
-          
-        
-
       </ScrollView>
     </View>
    </TouchableWithoutFeedback>
@@ -196,9 +191,6 @@ const styles = StyleSheet.create({
     flex:1,
     backgroundColor:'#fff',
     paddingTop: 0 + getStatusBarHeight(),
-  },
-  header:{
-    backgroundColor:'#16A085',
   },
   viewTexto:{
     alignItems:'center',
@@ -282,7 +274,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
   },
-  Input:{
+  input:{
     backgroundColor:'#fff',
     width:350,
     fontSize:20,
@@ -312,5 +304,4 @@ const styles = StyleSheet.create({
     fontWeight:'bold',
     color:'#131313'
   },
-
 })

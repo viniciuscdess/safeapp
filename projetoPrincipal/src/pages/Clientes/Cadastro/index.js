@@ -5,16 +5,12 @@ import {useNavigation} from '@react-navigation/native';
 import DatePicker from 'react-native-datepicker';
 import { TextInputMask } from 'react-native-masked-text';
 import {Picker} from '@react-native-picker/picker';
+import Icon from 'react-native-vector-icons/Feather';
 
 import Listagem from '../ListagemClientes';
 import Clientes from '../PaginaClientes';
 import firebase from '../../../services/firebaseConection';
 import Lembretes from '../../Lembretes/PaginaLembretes';
-
-
-
-
- 
 
 export default function App() {
   const [estadoCivil, setEstadoCivil] = useState();
@@ -31,10 +27,6 @@ export default function App() {
   const [comentario,  setComentario] = useState('');
   const navigation = useNavigation('Clientes');
   
-
-  const [data, setData] = useState('');
-  
-
   async function salvar(){
     // se os states (nome, senha etc) for difrente de vazio deixa entrar
     if(nome !== '' && 
@@ -84,29 +76,21 @@ export default function App() {
     navigation.navigate('Clientes');
   }
 
-
-
  return (
-
-
     <View style={styles.container}>
       <ScrollView
       //tirar a barra de rolagem
-        showsVerticalScrollIndicator={false}
-      >
-        
-      
+      showsVerticalScrollIndicator={false}>
 
       <StatusBar
         backgroundColor='transparent'
         barStyle='light-content'
-        translucent={true}
-      />
+        translucent={true} />
 
       <View style={styles.header}>
         <View style={styles.viewVoltar}>
           <TouchableOpacity style={styles.botaoVoltar} onPress={voltar}>
-            <Text style={styles.textoVoltar}>Voltar</Text>
+            <Icon name="arrow-left" color="#fff" size={30}/>
           </TouchableOpacity> 
         </View>
        
@@ -115,11 +99,9 @@ export default function App() {
         </View>
       </View>
       
-
-
+      
       <Text style={styles.subTitulos}>Dados Pessoais</Text>
-
-      <Text style={styles.titulos}>NOME:</Text>
+      <Text style={styles.titulos}>Nome:</Text>
       <TextInput
         style={styles.input}
         underlineColorAndroid='transparent'
@@ -129,8 +111,7 @@ export default function App() {
         autoCapitalize = 'sentences'
       />
 
-      <Text style={styles.titulos}>DATA:</Text>
-      
+      <Text style={styles.titulos}>Data de Nascimento:</Text>
         <DatePicker
           style={{
             width:'90%',
@@ -155,7 +136,7 @@ export default function App() {
         onChangeText={(texto) => setCpf(texto)}
       />
 
-      <Text style={styles.titulos}>TELEFONE:</Text>
+      <Text style={styles.titulos}>Telefone:</Text>
       <TextInputMask
       placeholder='(55) 43 9652-3291'
         style={styles.input}
@@ -185,7 +166,7 @@ export default function App() {
 
       <Text style={styles.subTitulos}>Dados Bancarios</Text>
 
-      <Text style={styles.titulos}>MATRICULA:</Text>
+      <Text style={styles.titulos}>Matricula:</Text>
       <TextInput
         style={styles.input}
         underlineColorAndroid='transparent'
@@ -195,7 +176,7 @@ export default function App() {
         keyboardType='numeric'
       />
       
-      <Text style={styles.titulos}>SENHA:</Text>
+      <Text style={styles.titulos}>Senha:</Text>
       <TextInput
         style={styles.input}
         underlineColorAndroid='transparent'
@@ -204,7 +185,7 @@ export default function App() {
         onChangeText={(texto) => setSenha(texto)}
       />
 
-      <Text style={styles.titulos}>CONVENIO:</Text>
+      <Text style={styles.titulos}>Convenio:</Text>
       <Picker
         selectedValue={convenio}
         onValueChange={(value) =>
@@ -229,11 +210,11 @@ export default function App() {
 
       <Text style={styles.subTitulos}>Oberservaçao:</Text>
       
-      <Text style={styles.titulos}>COMENTARIO:</Text>
+      <Text style={styles.titulos}>Comentarios/Observação:</Text>
       <TextInput
         multiline = {true}
         numberOfLines = {4}
-        maxLength={20}
+        maxLength={50}
         style={styles.inputComentario}
         underlineColorAndroid='transparent'
         placeholder='Ex: Este cliente pediu para falar com a vó dele'
@@ -251,7 +232,6 @@ export default function App() {
 
       </ScrollView>
     </View>
-  
   );
 }
 
@@ -287,18 +267,19 @@ const styles = StyleSheet.create({
     alignItems:'center',
   },
   subTitulos:{
-    fontSize:28,
+    fontSize:24,
     color:'#333333',
     fontWeight:'bold',
     marginLeft:15,
     marginBottom:5,
-    marginTop:5
+    marginTop:5,
+    alignItems:'center'
   },
   titulos:{
-    fontSize:18,
+    fontSize:16,
     color:'#333333',
     marginLeft:15,
-    marginTop:2
+    marginTop:2,
   },
   input:{
     borderWidth:0.7,
@@ -306,9 +287,9 @@ const styles = StyleSheet.create({
     marginLeft:15,
     marginBottom:10,
     marginRight:10,
-    fontSize:18,
+    fontSize:14,
     backgroundColor:'#fff',
-    height:40
+    height:35
   },
   viewBotao:{
     height:90,
@@ -330,15 +311,18 @@ const styles = StyleSheet.create({
     fontWeight:'bold',
     color:'#fff'
   },
+  botaoVoltar:{
+    marginLeft:10
+  },
   inputComentario:{
     borderWidth:0.7,
     borderRadius:9,
     marginLeft:15,
     marginBottom:10,
     marginRight:10,
-    fontSize:20,
+    fontSize:14,
     backgroundColor:'#fff',
-    height:120
+    height:150
   },
   dataNascimento:{
     backgroundColor:'#293241',
