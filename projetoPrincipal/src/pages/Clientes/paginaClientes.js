@@ -3,11 +3,18 @@ import { View, StyleSheet, TouchableOpacity, Text, ScrollView, StatusBar, FlatLi
 import {useNavigation} from '@react-navigation/native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 
-import firebase from '../../../services/firebaseConection';
-import Listagem from '../ListagemClientes';
+import firebase from '../../services/firebaseConection';
+
+import EditarCliente from './editarCliente';
+import Listagem from './listagem';
+import Cadastro from './cadastro';
+
+import AdicionarLembrete from '../Lembretes/adicionarLembrete';
+import EditarLembrete from '../Lembretes/editarLembrete';
+import PaginaLembretes from '../Lembretes/paginaLembretes';
 
 
-export default function Clientes() {
+export default function PaginaClientes() {
   const navigation = useNavigation();
   const [clientes , setClientes] = useState([]);
   const [loading , setLoading] = useState(true);
@@ -171,6 +178,5 @@ const styles = StyleSheet.create({
   },
   viewLista:{
   backgroundColor:'#fff',
-  
   }
 })

@@ -7,12 +7,19 @@ import { TextInputMask } from 'react-native-masked-text';
 import {Picker} from '@react-native-picker/picker';
 import Icon from 'react-native-vector-icons/Feather';
 
-import Listagem from '../ListagemClientes';
-import Clientes from '../PaginaClientes';
-import firebase from '../../../services/firebaseConection';
-import Lembretes from '../../Lembretes/PaginaLembretes';
+import firebase from '../../services/firebaseConection';
 
-export default function App() {
+import EditarCliente from './editarCliente';
+import Listagem from './listagem';
+import PaginaClientes from './paginaClientes';
+
+import AdicionarLembrete from '../Lembretes/adicionarLembrete';
+import EditarLembrete from '../Lembretes/editarLembrete';
+import PaginaLembretes from '../Lembretes/paginaLembretes';
+
+
+
+export default function Cadastro() {
   const [estadoCivil, setEstadoCivil] = useState();
 
 
@@ -25,7 +32,7 @@ export default function App() {
   const [endereço, setEndereço] = useState('');
   const [telefone,  setTelefone] = useState('');
   const [comentario,  setComentario] = useState('');
-  const navigation = useNavigation('Clientes');
+  const navigation = useNavigation('PaginaClientes');
   
   async function salvar(){
     // se os states (nome, senha etc) for difrente de vazio deixa entrar
@@ -109,6 +116,7 @@ export default function App() {
         value={nome}
         onChangeText={(texto) => setNome(texto)}
         autoCapitalize = 'sentences'
+        returnKeyType='next'
       />
 
       <Text style={styles.titulos}>Data de Nascimento:</Text>
@@ -134,6 +142,7 @@ export default function App() {
         type={'cpf'}
         value={cpf}
         onChangeText={(texto) => setCpf(texto)}
+        returnKeyType={'next'}
       />
 
       <Text style={styles.titulos}>Telefone:</Text>
@@ -151,18 +160,20 @@ export default function App() {
       />
 
       <Text style={styles.titulos}>Estado Civil:</Text>
-      <Picker
-        selectedValue={estadoCivil}
-        onValueChange={(value) =>
-          setEstadoCivil(value)}
-        style={styles.picker}
-      >
-        <Picker.Item label="Solteiro" value="solteiro" />
-        <Picker.Item label="Casado" value="casado" />
-        <Picker.Item label="Separado" value="separado" />
-        <Picker.Item label="Divorciado" value="divorciado" />
-        <Picker.Item label="Viuvo" value="viuvo" />
-      </Picker>
+      <View style={styles.picker}>
+        <Picker
+          selectedValue={estadoCivil}
+          onValueChange={(value) =>
+          setEstadoCivil(value)} >
+
+          <Picker.Item label="Solteiro" value="solteiro" />
+          <Picker.Item label="Casado" value="casado" />
+          <Picker.Item label="Separado" value="separado" />
+          <Picker.Item label="Divorciado" value="divorciado" />
+          <Picker.Item label="Viuvo" value="viuvo" />
+        </Picker>
+      </View>
+     
 
       <Text style={styles.subTitulos}>Dados Bancarios</Text>
 
@@ -174,6 +185,7 @@ export default function App() {
         value={matricula}
         onChangeText={(texto) => setMatricula(texto)}
         keyboardType='numeric'
+        returnKeyType='next'
       />
       
       <Text style={styles.titulos}>Senha:</Text>
@@ -183,20 +195,22 @@ export default function App() {
         placeholder='Ex: SenhaPadrao000'
         value={senha}
         onChangeText={(texto) => setSenha(texto)}
+        returnKeyType='next'
       />
 
       <Text style={styles.titulos}>Convenio:</Text>
-      <Picker
-        selectedValue={convenio}
-        onValueChange={(value) =>
-        setConvenio(value)}
-        style={styles.picker}
-      >
-        <Picker.Item label="Prefeitura" value="prefeitura" />
-        <Picker.Item label="GovernoEstado" value="governoEstado" />
-      </Picker>
+      <View style={styles.picker}>
+        <Picker
+          selectedValue={convenio}
+          onValueChange={(value) =>
+          setConvenio(value)} >
+          <Picker.Item label="Prefeitura" value="prefeitura" />
+          <Picker.Item label="GovernoEstado" value="governoEstado" />
+        </Picker>
+      </View>
+      
 
-      <Text style={styles.subTitulos}>Endereço:</Text>
+      <Text style={styles.subTitulos}>Endereço</Text>
 
       <Text style={styles.titulos}>Logradouro:</Text>
       <TextInput
@@ -206,9 +220,10 @@ export default function App() {
         value={endereço}
         onChangeText={(texto) => setEndereço(texto)}
         autoCapitalize = 'sentences'
+        returnKeyType='next'
       />
 
-      <Text style={styles.subTitulos}>Oberservaçao:</Text>
+      <Text style={styles.subTitulos}>Oberservaçao</Text>
       
       <Text style={styles.titulos}>Comentarios/Observação:</Text>
       <TextInput
@@ -221,6 +236,7 @@ export default function App() {
         value={comentario}
         onChangeText={(texto) => setComentario(texto)}
         autoCapitalize = 'sentences'
+        returnKeyType='next'
       />
 
       <View style={styles.viewBotao}>
@@ -228,8 +244,7 @@ export default function App() {
           <Text style={styles.botaoTexto}>SALVAR</Text>
         </TouchableOpacity>
       </View>
-
-
+      
       </ScrollView>
     </View>
   );
@@ -267,7 +282,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
   },
   subTitulos:{
-    fontSize:24,
+    fontSize:23,
     color:'#333333',
     fontWeight:'bold',
     marginLeft:15,
@@ -289,7 +304,7 @@ const styles = StyleSheet.create({
     marginRight:10,
     fontSize:14,
     backgroundColor:'#fff',
-    height:35
+    height:40
   },
   viewBotao:{
     height:90,
@@ -334,8 +349,9 @@ const styles = StyleSheet.create({
     marginLeft:15,
     marginBottom:10,
     marginRight:10,
-    fontSize:18,
-    backgroundColor:'#D9D2D1',
-    height:50
+    borderWidth:0.7,
+    borderRadius:9,
+    justifyContent:'center',
+    height:45
   }
 })

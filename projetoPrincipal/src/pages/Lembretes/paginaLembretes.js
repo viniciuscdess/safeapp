@@ -1,21 +1,22 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, TouchableOpacity, Text ,ScrollView, StatusBar, FlatList, TextInput, ActivityIndicator, Alert  } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { View, StyleSheet, TouchableOpacity, Text ,ScrollView, StatusBar, FlatList, TextInput, ActivityIndicator, Alert, SafeAreaView  } from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {useNavigation} from '@react-navigation/native';
-import DatePicker from 'react-native-datepicker';
+import { format } from 'date-fns';
 
-import firebase from '../../../services/firebaseConection';
-import AdicionarLembrete from '../AdicionarLembrete';
-import ListagemLembrete from '../ListagemLembrete';
-import Listagem from '../../Clientes/ListagemClientes/index';
-import { format, getTime, parseISO ,isAfter,  formatRelative, 
-  formatDistance,
-  isEqual,} from 'date-fns';
+import firebase from '../../services/firebaseConection';
 
-import pt from 'date-fns/locale/pt';
+import Cadastro from '../Clientes/cadastro';
+import EditarCliente from '../Clientes/editarCliente';
+import PaginaClientes from '../Clientes/paginaClientes';
 
-export default function ListNotes() {
+import EditarLembrete from './editarLembrete';
+import Listagem from './listagem';
+import AdicionarLembrete from './adicionarLembrete';
+
+
+
+export default function PaginaLembretes() {
 
   const navigation = useNavigation();  
   const [client, setClient] = useState([]);
@@ -102,9 +103,9 @@ export default function ListNotes() {
   }
 
 return (
-<ScrollView showsVerticalScrollIndicator={false}>
-  <View style={styles.container}>
-
+  <SafeAreaView style={styles.container}>
+    <ScrollView showsVerticalScrollIndicator={false}>
+ 
       <StatusBar
           backgroundColor='transparent'
           barStyle='dark-content'
@@ -122,18 +123,23 @@ return (
         ):
         (
         
-
+        <View style={{backgroundColor:'#fff'}}> 
           <FlatList
             keyExtractor={item => item.key}
             data={lembrete}            
-            renderItem={ ({item}) => <ListagemLembrete data={item}  deleteItem={handleDelete} />  }   
+            renderItem={ ({item}) => <Listagem data={item}  deleteItem={handleDelete} />  }   
           />
+        </View>
+     
+          
+       
         )
         }
 
 
-  </View>
- </ScrollView> 
+ 
+    </ScrollView> 
+ </SafeAreaView>
 );
 } 
 const styles = StyleSheet.create({

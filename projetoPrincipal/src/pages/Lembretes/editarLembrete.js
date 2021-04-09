@@ -5,10 +5,16 @@ import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 
 
-import Listagem from '../Clientes/ListagemClientes';
-import Clientes from '../Clientes/PaginaClientes';
 import firebase from '../../services/firebaseConection';
-import Lembretes from './PaginaLembretes';
+
+import Cadastro from '../Clientes/cadastro';
+import EditarCliente from '../Clientes/editarCliente';
+import PaginaClientes from '../Clientes/paginaClientes';
+
+import AdicionarLembrete from './adicionarLembrete';
+import Listagem from './listagem';
+import PaginaLembretes from './paginaLembretes';
+
 
 
 

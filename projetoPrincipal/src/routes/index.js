@@ -1,0 +1,1 @@
+//cuida de quem vai aparecer (logado) e (deslogado)

@@ -1,17 +1,18 @@
 import React from 'react';
-import { View, Text } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import Cadastro from './src/pages/Clientes/cadastro';
+import PaginaClientes  from './src/pages/Clientes/paginaClientes';
+import EditarCliente from './src/pages/Clientes/editarCliente';
+
 import Home from './src/pages/Home';
-import Cadastro from './src/pages/Clientes/Cadastro';
-import Clientes  from './src/pages/Clientes/PaginaClientes';
-import Editar from './src/pages/Clientes/Editar';
-import Lembretes from './src/pages/Lembretes/PaginaLembretes';
-import AdicionarLembrete from './src/pages/Lembretes/AdicionarLembrete';
-import EditarLembrete from './src/pages/Lembretes/editar';
+
+import PaginaLembretes from './src/pages/Lembretes/paginaLembretes';
+import AdicionarLembrete from './src/pages/Lembretes/adicionarLembrete';
+import EditarLembrete from './src/pages/Lembretes/editarLembrete';
  
 
 const  Stack = createStackNavigator();
@@ -29,9 +30,6 @@ const icons = {
   },
 };
 
-
-
-
 function Tabs() {
  return (   
      <Tab.Navigator
@@ -39,10 +37,11 @@ function Tabs() {
         ({
           tabBarIcon: ({color, size}) =>
           {
-            const { name} = icons[route.name];
+            const { name } = icons[route.name];
             return <Icon name={name} color={color} size={size} />
           }
         })}
+
         tabBarOptions={{
           style:{
             backgroundColor:'#16A085',
@@ -52,8 +51,8 @@ function Tabs() {
         }}
      >
        <Tab.Screen name="Home" component={Home}/>
-       <Tab.Screen name="Clientes" component={Clientes}/>
-       <Tab.Screen name="Lembretes" component={Lembretes}/>
+       <Tab.Screen name="Clientes" component={PaginaClientes}/>
+       <Tab.Screen name="Lembretes" component={PaginaLembretes}/>
        
       
      </Tab.Navigator>
@@ -72,7 +71,7 @@ export default function App() {
           />
           
           <Stack.Screen
-            name='Editar' component={Editar}
+            name='EditarCliente' component={EditarCliente}
             options={{headerShown:false}}
           />
           <Stack.Screen

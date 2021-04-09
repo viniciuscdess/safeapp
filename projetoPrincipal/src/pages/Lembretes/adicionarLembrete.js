@@ -5,16 +5,19 @@ import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import DatePicker from 'react-native-datepicker';
 
-import firebase from '../../../services/firebaseConection';
-import Listagem from '../../Clientes/ListagemClientes';
-import { format, getTime, parseISO ,isAfter,  formatRelative, 
-  formatDistance,
-  isEqual,} from 'date-fns';
- 
+import firebase from '../../services/firebaseConection';
+
+import Cadastro from '../Clientes/cadastro';
+import EditarCliente from '../Clientes/editarCliente';
+import PaginaClientes from '../Clientes/paginaClientes';
+
+import EditarLembrete from './editarLembrete';
+import Listagem from './listagem';
+import PaginaLembretes from './paginaLembretes';
 
 console.disableYellowBox=true;
 
-export default function App({ route }) {
+export default function AdicionarLembrete({ route }) {
   const navigation = useNavigation();
   const [date, setDate] = useState();
   const [lembrete, setLembrete] = useState('');
@@ -39,11 +42,11 @@ export default function App({ route }) {
       alert('Lembrete adicionado com sucesso!' );
       setLembrete('');
     }
-      navigation.navigate('Lembretes');
+      navigation.navigate('PaginaLembretes');
   }
 
   async function voltar(){
-    navigation.navigate('Editar')
+    navigation.navigate('EditarCliente')
   }
 
   return (

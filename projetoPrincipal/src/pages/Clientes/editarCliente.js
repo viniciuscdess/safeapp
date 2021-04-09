@@ -7,11 +7,16 @@ import { TextInputMask } from 'react-native-masked-text';
 import {Picker} from '@react-native-picker/picker';
 import Icon from 'react-native-vector-icons/Feather';
 
-import Clientes from '../PaginaClientes/index';
-import firebase from '../../../services/firebaseConection';
-import Lembretes from '../../Lembretes/PaginaLembretes';
-import AdicionarLembrete from '../../Lembretes/AdicionarLembrete';
 
+import firebase from '../../services/firebaseConection';
+
+import Cadastro from './cadastro';
+import Listagem from './listagem';
+import PaginaClientes from './paginaClientes';
+
+import AdicionarLembrete from '../Lembretes/adicionarLembrete';
+import EditarLembrete from '../Lembretes/editarLembrete';
+import PaginaLembretes from '../Lembretes/paginaLembretes';
 
 
 console.disableYellowBox=true;
@@ -19,7 +24,7 @@ console.disableYellowBox=true;
 
 
 
-export default function Editar({route}) {
+export default function EditarCliente({route}) {
 
   const chave = route.params?.key;
   const [nome, setNome] = useState(route.params?.nome);
@@ -33,7 +38,7 @@ export default function Editar({route}) {
   const [comentario,  setComentario] = useState(route.params?.comentario);
   const [estadoCivil, setEstadoCivil] = useState(route.params?.estadoCivil);
   
-  const navigation = useNavigation('Clientes');
+  const navigation = useNavigation('PaginaClientes');
   
 
   async function salvar() { 
@@ -145,18 +150,20 @@ export default function Editar({route}) {
       />
 
       <Text style={styles.titulos}>Estado Civil:</Text>
-      <Picker
-        selectedValue={estadoCivil}
-        onValueChange={(value) =>
-        setEstadoCivil(value)}
-        style={styles.picker}
-      >
-        <Picker.Item label="Solteiro" value="solteiro" />
-        <Picker.Item label="Casado" value="casado" />
-        <Picker.Item label="Separado" value="separado" />
-        <Picker.Item label="Divorciado" value="divorciado" />
-        <Picker.Item label="Viuvo" value="viuvo" />
-      </Picker>
+      <View  style={styles.picker}>
+        <Picker
+          selectedValue={estadoCivil}
+          onValueChange={(value) =>
+          setEstadoCivil(value)}
+        >
+          <Picker.Item label="Solteiro" value="solteiro" />
+          <Picker.Item label="Casado" value="casado" />
+          <Picker.Item label="Separado" value="separado" />
+          <Picker.Item label="Divorciado" value="divorciado" />
+          <Picker.Item label="Viuvo" value="viuvo" />
+        </Picker>
+      </View>
+    
 
       <Text style={styles.subTitulos}>Dados Bancarios</Text>
 
@@ -179,16 +186,16 @@ export default function Editar({route}) {
       />
 
       <Text style={styles.titulos}>Convenio:</Text>
-      <Picker
-        selectedValue={convenio}
-        onValueChange={(value) =>
-          setConvenio(value)}
-        style={styles.picker}
-      >
-        <Picker.Item label="Prefeitura" value="prefeitura" />
-        <Picker.Item label="GovernoEstado" value="governoEstado" />
-      </Picker>
-
+      <View  style={styles.picker}>
+        <Picker
+          selectedValue={convenio}
+          onValueChange={(value) =>
+            setConvenio(value)}
+        >
+          <Picker.Item label="Prefeitura" value="prefeitura" />
+          <Picker.Item label="GovernoEstado" value="governoEstado" />
+        </Picker>
+      </View>
       <Text style={styles.subTitulos}>Endereço</Text>
 
       <Text style={styles.titulos}>Logradouro:</Text>
@@ -213,7 +220,8 @@ export default function Editar({route}) {
         value={comentario}
         onChangeText={(texto) => setComentario(texto)}
         multiline={true}
-        numberOfLines={3}
+        numberOfLines={4}
+        maxLength={50}
         autoCapitalize = 'sentences'
       />
 
@@ -247,12 +255,6 @@ const styles = StyleSheet.create({
     padding:5,
     paddingTop: 0 + getStatusBarHeight(),
   },
-  viewVoltar:{
-    
-  },
-  viewTextoPrincipal:{
-    
-  },
   viewBotaoEditar:{
     alignItems:'center',
     justifyContent:'center'
@@ -267,7 +269,7 @@ const styles = StyleSheet.create({
     color:'#fff',
   },
   subTitulos:{
-    fontSize:28,
+    fontSize:23,
     color:'#333333',
     fontWeight:'bold',
     marginLeft:15,
@@ -275,7 +277,7 @@ const styles = StyleSheet.create({
     marginTop:5
   },
   titulos:{
-    fontSize:18,
+    fontSize:16,
     color:'#333333',
     marginLeft:15,
     marginTop:2
@@ -286,7 +288,7 @@ const styles = StyleSheet.create({
     marginLeft:15,
     marginBottom:10,
     marginRight:10,
-    fontSize:18,
+    fontSize:14,
     backgroundColor:'#fff',
     height:40
   },
@@ -315,17 +317,18 @@ const styles = StyleSheet.create({
     marginLeft:15,
     marginBottom:10,
     marginRight:10,
-    fontSize:20,
+    fontSize:14,
     backgroundColor:'#fff',
-    height:120
+    height:150
   },
   picker:{
     marginLeft:15,
     marginBottom:10,
     marginRight:10,
-    fontSize:18,
-    backgroundColor:'#D9D2D1',
-    height:50
+    borderWidth:0.7,
+    borderRadius:9,
+    justifyContent:'center',
+    height:45
   },
   botaoEditar:{
     

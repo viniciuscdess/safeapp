@@ -2,15 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet,TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
-import { format, isToday, startOfToday } from 'date-fns';
-import firebase from '../../../services/firebaseConection';
+import { format } from 'date-fns';
+
+
+import firebase from '../../services/firebaseConection';
+
+import EditarCliente from './editarCliente';
+import PaginaClientes from './paginaClientes';
+import Cadastro from './cadastro';
+
+import AdicionarLembrete from '../Lembretes/adicionarLembrete';
+import EditarLembrete from '../Lembretes/editarLembrete';
+import PaginaLembretes from '../Lembretes/paginaLembretes';
 
 export default function Listagem({ data, deleteItem}) {
 
-  const navigation = useNavigation('Editar');
+  const navigation = useNavigation();
 
   function ver(data) {
-    navigation.navigate('Editar', {key: data.key, nome:data.nome, dataNascimento: data.dataNascimento, cpf: data.cpf, matricula: data.matricula, senha: data.senha, convenio:data.convenio, endereço:data.endereço, telefone: data.telefone, comentario:data.comentario, estadoCivil: data.estadoCivil})
+    navigation.navigate('EditarCliente', {key: data.key, nome:data.nome, dataNascimento: data.dataNascimento, cpf: data.cpf, matricula: data.matricula, senha: data.senha, convenio:data.convenio, endereço:data.endereço, telefone: data.telefone, comentario:data.comentario, estadoCivil: data.estadoCivil})
   }
 
   const [nome , setNome] = useState('');

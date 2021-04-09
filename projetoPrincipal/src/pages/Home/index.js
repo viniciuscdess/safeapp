@@ -2,9 +2,10 @@ import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback, Text, ScrollView, StatusBar,  TextInput, Image, Keyboard, TouchableOpacity } from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import firebase from '../../services/firebaseConection';
-import { format, isToday, startOfToday } from 'date-fns';
+import { format } from 'date-fns';
 
+
+import firebase from '../../services/firebaseConection';
 
 export default function Home() {
   const [nome , setNome] = useState('');
@@ -290,7 +291,6 @@ const styles = StyleSheet.create({
     fontSize:30,
   }, 
   botao:{
-    borderWidth:1,
     height:50,
     width:'80%',
     backgroundColor:'#16A085',
@@ -302,6 +302,6 @@ const styles = StyleSheet.create({
   botaoTexto:{
     fontSize:18,
     fontWeight:'bold',
-    color:'#131313'
+    color:'#fff'
   },
 })

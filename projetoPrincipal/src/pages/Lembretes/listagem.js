@@ -4,6 +4,17 @@ import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 
 
+import firebase from '../../services/firebaseConection';
+
+import Cadastro from '../Clientes/cadastro';
+import EditarCliente from '../Clientes/editarCliente';
+import PaginaClientes from '../Clientes/paginaClientes';
+
+import EditarLembrete from './editarLembrete';
+import AdicionarLembrete from './adicionarLembrete';
+import PaginaLembretes from './paginaLembretes';
+
+
 export default function Listagem({ data, deleteItem }) {
 
   const navigation = useNavigation();
@@ -19,7 +30,7 @@ return (
         <View style={styles.componente}>
           <View style={styles.viewLetra}>
             
-            <Text style={styles.letra}>A</Text>
+            <Text style={styles.letra}>{data.date.slice(0,2)}</Text>
           </View>
           
 
@@ -61,7 +72,8 @@ const styles = StyleSheet.create({
     width:'100%',
     marginBottom:5,
     padding:5,
-    alignItems:'center'
+    alignItems:'center',
+    backgroundColor:'#fff',
   },
   areaTexto:{
     backgroundColor:'#fff',
