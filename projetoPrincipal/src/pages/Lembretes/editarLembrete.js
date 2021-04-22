@@ -15,9 +15,6 @@ import AdicionarLembrete from './adicionarLembrete';
 import Listagem from './listagem';
 import PaginaLembretes from './paginaLembretes';
 
-
-
-
 export default function EditarLembrete({route}) {
     const navigation = useNavigation();
 
@@ -56,15 +53,18 @@ export default function EditarLembrete({route}) {
           />
   
             <View style={styles.header}>
+              
               <View style={styles.viewVoltar}>
                 <TouchableOpacity style={styles.botaoVoltar} onPress={voltar}>
                   <Icon name="arrow-left" color="#fff" size={30}/>
                 </TouchableOpacity> 
               </View>
   
-              <View style={styles.viewTextoPrincipal}>
+             
                 <Text style={styles.tituloPrincipal}>Editar Lembrete</Text>
-              </View>
+             
+            
+             
             </View>
   
               <View style={styles.viewInput}>
@@ -103,9 +103,9 @@ export default function EditarLembrete({route}) {
       backgroundColor:'#16A085',
       flexDirection:'row',
       alignItems:'center',
-      justifyContent:'space-around',
       padding:5,
       paddingTop: 0 + getStatusBarHeight(),
+      justifyContent:'space-around'
     },
     viewBotaoEditar:{
       alignItems:'center',
@@ -114,15 +114,15 @@ export default function EditarLembrete({route}) {
     botaoVoltar:{
       fontSize:20,
       color:'#fff',
+    
     },
     tituloPrincipal:{
       fontSize:35,
       fontWeight:'bold',
       color:'#fff',
-      
     },
     titulos:{
-      fontSize:28,
+      fontSize:22,
       color:'#333333',
       fontWeight:'bold',
       margin:10
@@ -134,7 +134,7 @@ export default function EditarLembrete({route}) {
     input:{
       borderWidth:1,
       borderRadius:9, 
-      fontSize:18,
+      fontSize:14,
       backgroundColor:'#fff',
       width:350,
       alignItems:'center',

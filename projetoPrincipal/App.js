@@ -2,7 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Feather';
 
 import Cadastro from './src/pages/Clientes/cadastro';
 import PaginaClientes  from './src/pages/Clientes/paginaClientes';
@@ -26,7 +26,7 @@ const icons = {
     name:'users'
   },
   Lembretes:{
-    name:'list-alt'
+    name:'list'
   },
 };
 
@@ -43,11 +43,17 @@ function Tabs() {
         })}
 
         tabBarOptions={{
+          //mostra o nome com os icones
+          showLabel:true ,
+           //se tiver um teclado a tab bar nao sobe junto(fecha a tab bar)
+          keyboardHidesTabBar:true,
+
           style:{
             backgroundColor:'#16A085',
+            borderTopWidth:0
           },
           activeTintColor:'#FFFFFF',
-          inactiveTintColor:'#333333'
+          inactiveTintColor:'#333333',
         }}
      >
        <Tab.Screen name="Home" component={Home}/>
