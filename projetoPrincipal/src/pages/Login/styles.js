@@ -1,0 +1,72 @@
+import styled from 'styled-components';
+
+export const Container = styled.View`
+flex:1;
+background-color:#fff;
+`;
+
+export const Header = styled.View`
+width:300px;
+margin:20px;
+flex-direction:row;
+align-items:center;
+`;
+
+export const Componente = styled.View`
+background-color:#fff;
+align-items:flex-start;
+justify-content:center;
+margin-left:5px;
+`;
+
+export const ViewBtn = styled.View`
+background-color:#fff;
+align-items:center;
+justify-content:flex-start;
+`;
+
+export const TituloPrincipal = styled.Text`
+font-size:22;
+color: green;
+font-weight:bold;
+`;
+
+export const TextoLogin = styled.Text`
+font-size:25;
+color: #000;
+font-weight:bold;
+margin:10px;
+`;
+
+export const Input = styled.TextInput`
+font-size:14px;
+border-bottom-width:1px;
+width:350px;
+height:45px;
+margin-left:10px;
+`;
+
+export const Botao = styled.TouchableOpacity`
+width:300px;
+align-items:center;
+justify-content:center;
+background-color:green;
+height:45px;
+border-radius:25px;
+margin:10px;
+`;
+
+export const TextoBotao = styled.Text`
+font-size:18px;
+font-weight:bold;
+color:#fff;
+`;
+
+export const Botao2 = styled.TouchableOpacity`
+margin:15px;
+`;
+
+export const TextoBotao2 = styled.Text`
+font-size:14px;
+color:#000;
+`;

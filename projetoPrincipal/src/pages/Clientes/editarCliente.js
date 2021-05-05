@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, StatusBar, FlatList, Modal} from 'react-native';
+import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, StatusBar} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {useNavigation} from '@react-navigation/native';
 import DatePicker from 'react-native-datepicker';
@@ -7,8 +7,9 @@ import { TextInputMask } from 'react-native-masked-text';
 import {Picker} from '@react-native-picker/picker';
 import Icon from 'react-native-vector-icons/Feather';
 
+import firestore from '@react-native-firebase/firestore';
 
-import firebase from '../../services/firebaseConection';
+
 
 import Cadastro from './cadastro';
 import Listagem from './listagem';
@@ -21,11 +22,8 @@ import PaginaLembretes from '../Lembretes/paginaLembretes';
 
 console.disableYellowBox=true;
 
-
-
-
 export default function EditarCliente({route}) {
-
+  const id = route.params?.id;
   const chave = route.params?.key;
   const [nome, setNome] = useState(route.params?.nome);
   const [dataNascimento, setDataNascimento] = useState(route.params?.dataNascimento);
@@ -38,11 +36,13 @@ export default function EditarCliente({route}) {
   const [comentario,  setComentario] = useState(route.params?.comentario);
   const [estadoCivil, setEstadoCivil] = useState(route.params?.estadoCivil);
   
+  const userId = route.params?.userId;
+
   const navigation = useNavigation('PaginaClientes');
   
 
-  async function salvar() { 
-    await firebase.database().ref('clientes').child(chave).update({
+  async function editar(){
+    await firestore().collection('clientes').doc(id).update({
       nome: nome,
       dataNascimento: dataNascimento,
       cpf: cpf,
@@ -52,17 +52,19 @@ export default function EditarCliente({route}) {
       convenio:convenio,
       senha:senha,
       matricula:matricula,
-  });
-    navigation.navigate('Clientes');
+    })
+    .then(() => {
+      console.log('deu tudo certo');
+    })
+ 
   }
-  
   
   function voltar(){
     navigation.navigate('Clientes');
   }
 
   function lembrete(data) {
-    navigation.navigate('AdicionarLembrete'  ,{key: chave, nome: nome});
+    navigation.navigate('AdicionarLembrete'  ,{key: chave, nome: nome, id:id});
   }
 
  return (
@@ -94,7 +96,7 @@ export default function EditarCliente({route}) {
 
         <View style={styles.viewBotaoEditar}>
         <TouchableOpacity style={styles.botaoEditar} onPress={lembrete}> 
-          <Icon name='bookmark' color='#fff' size={28}/>
+          <Icon name='calendar' color='#fff' size={28}/>
         </TouchableOpacity>
       </View>
         
@@ -111,6 +113,9 @@ export default function EditarCliente({route}) {
         value={nome}
         onChangeText={(texto) => setNome(texto)}
         autoCapitalize = 'sentences'
+        placeholderTextColor='#ddd'
+        maxLength={300}
+        autoCorrect={false}
       />
 
       <Text style={styles.titulos}>Data de nascimento:</Text>
@@ -133,6 +138,9 @@ export default function EditarCliente({route}) {
         type={'cpf'}
         value={cpf}
         onChangeText={(texto) => setCpf(texto)}
+        placeholderTextColor='#ddd'
+        maxLength={300}
+        autoCorrect={false}
       />
 
       <Text style={styles.titulos}>Telefone:</Text>
@@ -147,6 +155,9 @@ export default function EditarCliente({route}) {
         }}
         value={telefone}
         onChangeText={(texto) => setTelefone(texto)}
+        placeholderTextColor='#ddd'
+        maxLength={300}
+        autoCorrect={false}
       />
 
       <Text style={styles.titulos}>Estado Civil:</Text>
@@ -174,6 +185,9 @@ export default function EditarCliente({route}) {
         placeholder='Ex: 123456789000'
         value={matricula}
         onChangeText={(texto) => setMatricula(texto)}
+        placeholderTextColor='#ddd'
+        maxLength={300}
+        autoCorrect={false}
       />
       
       <Text style={styles.titulos}>Senha:</Text>
@@ -183,6 +197,9 @@ export default function EditarCliente({route}) {
         placeholder='Ex: SenhaPadrao000'
         value={senha}
         onChangeText={(texto) => setSenha(texto)}
+        placeholderTextColor='#ddd'
+        maxLength={300}
+        autoCorrect={false}
       />
 
       <Text style={styles.titulos}>Convenio:</Text>
@@ -206,6 +223,9 @@ export default function EditarCliente({route}) {
         value={endereço}
         onChangeText={(texto) => setEndereço(texto)}
         autoCapitalize = 'sentences'
+        placeholderTextColor='#ddd'
+        maxLength={300}
+        autoCorrect={false}
       />
 
       
@@ -220,8 +240,9 @@ export default function EditarCliente({route}) {
         value={comentario}
         onChangeText={(texto) => setComentario(texto)}
         multiline={true}
-        numberOfLines={4}
-        maxLength={50}
+        placeholderTextColor='#ddd'
+        maxLength={300}
+        autoCorrect={false}
         autoCapitalize = 'sentences'
       />
 
@@ -230,7 +251,7 @@ export default function EditarCliente({route}) {
       
 
       <View style={styles.viewBotao}>
-        <TouchableOpacity style={styles.botao} onPress={salvar}> 
+        <TouchableOpacity style={styles.botao} onPress={editar}> 
           <Text style={styles.botaoTexto}>SALVAR</Text>
         </TouchableOpacity>
       </View>

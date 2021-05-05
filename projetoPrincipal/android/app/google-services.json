@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "189237505211",
+    "firebase_url": "https://projetoprincipal-56944-default-rtdb.firebaseio.com",
+    "project_id": "projetoprincipal-56944",
+    "storage_bucket": "projetoprincipal-56944.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:189237505211:android:8f50c08074222eb0bf0d9e",
+        "android_client_info": {
+          "package_name": "com.safeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "189237505211-3ff5ojvjehg7gdp209nspr6367sjdoup.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVBetawmykRVLhLCyNXJqxZuqeM-Adapw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "189237505211-3ff5ojvjehg7gdp209nspr6367sjdoup.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,8 +2,8 @@ import React, {useState, useEffect, useContext} from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, ScrollView, StatusBar, FlatList, TextInput, SafeAreaView, Alert, ActivityIndicator } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-
-import firebase from '../../services/firebaseConection';
+import firestore from '@react-native-firebase/firestore';
+import {AuthContext} from '../../contexts/auth';
 
 import EditarCliente from './editarCliente';
 import Listagem from './listagem';
@@ -18,34 +18,30 @@ export default function PaginaClientes() {
   const navigation = useNavigation();
   const [clientes , setClientes] = useState([]);
   const [loading , setLoading] = useState(true);
-
-
   
+
+  const {user} = useContext(AuthContext);
+
+
   useEffect(() => {
-      async function dados(){
-        await firebase.database().ref('clientes').on('value', (snapshot) => {
-          setClientes([]);
-          //vai percorrer tudo dentro do banco de dados
-         snapshot.forEach((chilItem) => {
-           let data = {
-             key: chilItem.key,
-             nome:chilItem.val().nome,
-             dataNascimento:chilItem.val().dataNascimento,
-             cpf:chilItem.val().cpf,
-             matricula:chilItem.val().matricula,
-             senha:chilItem.val().senha,
-             convenio:chilItem.val().convenio,
-             endereço:chilItem.val().endereço,
-             telefone:chilItem.val().telefone,
-             comentario:chilItem.val().comentario
-           };
-           setClientes(oldArray => [...oldArray, data]);
-         })
-         setLoading(false)
-        })
-      }
-      dados();
-  },[])
+    const subscriber = firestore()
+    .collection('clientes')
+    .orderBy('created' , 'desc')
+    .onSnapshot( snapshot => {
+      const clienteList = [];
+      snapshot.forEach(doc => {
+        clienteList.push({
+          ...doc.data(),
+          //pega o id do cliente e nao do usario que esta logado
+          id: doc.id,
+        });
+      });
+      setClientes(clienteList);
+      setLoading(false);
+    })
+    return () => subscriber();
+  }, [])
+
 
   function cadastrar(){
     navigation.navigate('Cadastro')
@@ -69,9 +65,11 @@ export default function PaginaClientes() {
     )
   }
 
+/*
 async function handleDeleteSucess(key,data) {
   await firebase.database().ref('clientes').child(key).remove();
 }
+*/
 
  return (
    <SafeAreaView style={styles.container}>
@@ -88,9 +86,6 @@ async function handleDeleteSucess(key,data) {
           <Text style={styles.textoHeader}>Clientes</Text>
         </View>
 
-
-
-
         <View style={styles.viewBotao}> 
         <TouchableOpacity style={styles.botao} onPress={cadastrar}>
           <Text style={styles.botaoTexto}>+</Text>
@@ -99,29 +94,28 @@ async function handleDeleteSucess(key,data) {
       </View>
      
 
-
+         
       {loading ? 
-        (
-            <ActivityIndicator color='#121212' size={45} />
-        ):
-        (
-          
-          <View style={styles.containerLista}>
-         
+  (
+      <ActivityIndicator color='#121212' size={45} />
+  ):
+  (
+    
+    <View style={styles.containerLista}>
+   
 
-             <View style={styles.viewLista}>
-              <FlatList
-                keyExtractor={item => item.key}
-                data={clientes}
-                renderItem={({item}) => ( <Listagem data={item} deleteItem={handleDelete} /> )}
-              />
-            </View>
-          </View>
-         
-        )
-        }
+       <View style={styles.viewLista}>
+        <FlatList
+          keyExtractor={item => item.key}
+          data={clientes}
+          renderItem={({item}) => ( <Listagem data={item} deleteItem={handleDelete} userId={user.uid} />  )}
+        />
+      </View>
+    </View>
+   
+  )
+  }
 
-      
       
      </ScrollView>
    </SafeAreaView>
@@ -180,3 +174,5 @@ const styles = StyleSheet.create({
   backgroundColor:'#fff',
   }
 })
+
+

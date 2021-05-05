@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, StatusBar} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {useNavigation} from '@react-navigation/native';
@@ -6,8 +6,11 @@ import DatePicker from 'react-native-datepicker';
 import { TextInputMask } from 'react-native-masked-text';
 import {Picker} from '@react-native-picker/picker';
 import Icon from 'react-native-vector-icons/Feather';
+import firestore from '@react-native-firebase/firestore';
 
-import firebase from '../../services/firebaseConection';
+
+
+import {AuthContext} from '../../contexts/auth';
 
 import EditarCliente from './editarCliente';
 import Listagem from './listagem';
@@ -18,11 +21,8 @@ import EditarLembrete from '../Lembretes/editarLembrete';
 import PaginaLembretes from '../Lembretes/paginaLembretes';
 
 
-
 export default function Cadastro() {
   const [estadoCivil, setEstadoCivil] = useState();
-
-
   const [nome, setNome] = useState('');
   const [dataNascimento, setDataNascimento] = useState('');
   const [cpf, setCpf] = useState('');
@@ -34,51 +34,53 @@ export default function Cadastro() {
   const [comentario,  setComentario] = useState('');
   const navigation = useNavigation('PaginaClientes');
   
-  async function salvar(){
-    // se os states (nome, senha etc) for difrente de vazio deixa entrar
-    if(nome !== '' && 
-       dataNascimento !== '' && 
-       cpf !== '' && 
-       matricula !== '' && 
-       senha !== '' && 
-       convenio !== '' && 
-       endereço !== '' && 
-       telefone !== '' && 
-       comentario !== '' ){
-        
-        let clientes = await firebase.database().ref('clientes');
- 
-        // let chave esta criando uma key aleatoria que nunca vai se repertir
-        let chave = clientes.push().key;
-        clientes.child(chave).set({
-          nome: nome,
-          senha: senha,
-          convenio: convenio,
-          cpf: cpf,
-          matricula : matricula,
-          endereço:endereço,
-          dataNascimento:dataNascimento,
-          telefone: telefone,
-          comentario : comentario,
-          estadoCivil: estadoCivil
-        });
-        
-      alert('Seu Cadastro foi enviado com sucesso!!!');
-      setNome('');
-      setDataNascimento('');
-      setCpf('');
-      setMatricula('');
-      setSenha('');
-      setConvenio('');
-      setEndereço('');
-      setTelefone('');
-      setComentario('');
-      setEstadoCivil();
-    }
-    navigation.navigate('Clientes');
+  const {user} = useContext(AuthContext);
+
+
+  //const [time, setTime] = useState('');
+  //var timeStamp = new Date(time);
+  //time: timeStamp
+
+  async function cadastrar(){
+    await firestore().collection('clientes')
+       .add({
+         //data que foi cadastrado o cliente
+        created: new Date(),
+        //nome de qual conta esta logado
+        autor: user.nome,
+        //uid da conta que esta logado
+        userId: user.uid,
+        //informações do cliente
+        nome: nome,
+        senha: senha,
+        convenio: convenio,
+        cpf: cpf,
+        matricula : matricula,
+        endereço:endereço,
+        telefone: telefone,
+        comentario : comentario,
+        estadoCivil: estadoCivil,
+        dataNascimento: dataNascimento
+       })
+       .then(() => {
+          alert('Cliente cadastrado com sucesso!');
+          setNome('');
+          setDataNascimento('');
+          setCpf('');
+          setMatricula('');
+          setSenha('');
+          setConvenio('');
+          setEndereço('');
+          setTelefone('');
+          setComentario('');
+          setEstadoCivil();
+       })
+       .catch((error) => {
+           console.log(error);
+       })
+       navigation.goBack();
   }
- 
-    
+     
   function voltar(){
     navigation.navigate('Clientes');
   }
@@ -117,6 +119,9 @@ export default function Cadastro() {
         onChangeText={(texto) => setNome(texto)}
         autoCapitalize = 'sentences'
         returnKeyType='next'
+        placeholderTextColor='#ddd'
+        maxLength={300}
+        autoCorrect={false}
       />
 
       <Text style={styles.titulos}>Data de Nascimento:</Text>
@@ -143,6 +148,9 @@ export default function Cadastro() {
         value={cpf}
         onChangeText={(texto) => setCpf(texto)}
         returnKeyType={'next'}
+        placeholderTextColor='#ddd'
+        maxLength={300}
+        autoCorrect={false}
       />
 
       <Text style={styles.titulos}>Telefone:</Text>
@@ -157,6 +165,9 @@ export default function Cadastro() {
         }}
         value={telefone}
         onChangeText={(texto) => setTelefone(texto)}
+        placeholderTextColor='#ddd'
+        maxLength={300}
+        autoCorrect={false}
       />
 
       <Text style={styles.titulos}>Estado Civil:</Text>
@@ -165,7 +176,6 @@ export default function Cadastro() {
           selectedValue={estadoCivil}
           onValueChange={(value) =>
           setEstadoCivil(value)} >
-
           <Picker.Item label="Solteiro" value="solteiro" />
           <Picker.Item label="Casado" value="casado" />
           <Picker.Item label="Separado" value="separado" />
@@ -174,7 +184,6 @@ export default function Cadastro() {
         </Picker>
       </View>
      
-
       <Text style={styles.subTitulos}>Dados Bancarios</Text>
 
       <Text style={styles.titulos}>Matricula:</Text>
@@ -186,6 +195,9 @@ export default function Cadastro() {
         onChangeText={(texto) => setMatricula(texto)}
         keyboardType='numeric'
         returnKeyType='next'
+        placeholderTextColor='#ddd'
+        maxLength={300}
+        autoCorrect={false}
       />
       
       <Text style={styles.titulos}>Senha:</Text>
@@ -196,6 +208,9 @@ export default function Cadastro() {
         value={senha}
         onChangeText={(texto) => setSenha(texto)}
         returnKeyType='next'
+        placeholderTextColor='#ddd'
+        maxLength={300}
+        autoCorrect={false}
       />
 
       <Text style={styles.titulos}>Convenio:</Text>
@@ -209,7 +224,6 @@ export default function Cadastro() {
         </Picker>
       </View>
       
-
       <Text style={styles.subTitulos}>Endereço</Text>
 
       <Text style={styles.titulos}>Logradouro:</Text>
@@ -221,6 +235,9 @@ export default function Cadastro() {
         onChangeText={(texto) => setEndereço(texto)}
         autoCapitalize = 'sentences'
         returnKeyType='next'
+        placeholderTextColor='#ddd'
+        maxLength={300}
+        autoCorrect={false}
       />
 
       <Text style={styles.subTitulos}>Oberservaçao</Text>
@@ -228,8 +245,6 @@ export default function Cadastro() {
       <Text style={styles.titulos}>Comentarios/Observação:</Text>
       <TextInput
         multiline = {true}
-        numberOfLines = {4}
-        maxLength={50}
         style={styles.inputComentario}
         underlineColorAndroid='transparent'
         placeholder='Ex: Este cliente pediu para falar com a vó dele'
@@ -237,11 +252,14 @@ export default function Cadastro() {
         onChangeText={(texto) => setComentario(texto)}
         autoCapitalize = 'sentences'
         returnKeyType='next'
+        placeholderTextColor='#ddd'
+        maxLength={300}
+        autoCorrect={false}
       />
 
       <View style={styles.viewBotao}>
-        <TouchableOpacity style={styles.botao} onPress={salvar}> 
-          <Text style={styles.botaoTexto}>SALVAR</Text>
+        <TouchableOpacity style={styles.botao} onPress={cadastrar}> 
+          <Text style={styles.botaoTexto}>Cadastrar</Text>
         </TouchableOpacity>
       </View>
       

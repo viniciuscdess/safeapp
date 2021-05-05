@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 
 
-import firebase from '../../services/firebaseConection';
+
 
 import Cadastro from '../Clientes/cadastro';
 import EditarCliente from '../Clientes/editarCliente';
@@ -21,21 +21,23 @@ export default function EditarLembrete({route}) {
     const chaveCliente = route.params?.key;
     const [lembrete, setLembrete] = useState(route.params?.lembrete);
 
+    /*
     async function salvar() { 
       await firebase.database().ref('lembretes').child(chaveCliente).update({
         lembrete:lembrete
     });
       navigation.navigate('Lembretes');
     }
-  
-  
+  */
+ 
+  /*
     async function salvar() { 
       await firebase.database().ref('lembretes').child(chaveCliente).update({
         lembrete:lembrete
     });
       navigation.navigate('Lembretes');
     }
-  
+  */
     async function voltar(){
       navigation.navigate('Lembretes')
     }

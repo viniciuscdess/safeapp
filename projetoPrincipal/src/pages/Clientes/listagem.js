@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import { format } from 'date-fns';
 
 
-import firebase from '../../services/firebaseConection';
+
 
 import EditarCliente from './editarCliente';
 import PaginaClientes from './paginaClientes';
@@ -15,12 +15,12 @@ import AdicionarLembrete from '../Lembretes/adicionarLembrete';
 import EditarLembrete from '../Lembretes/editarLembrete';
 import PaginaLembretes from '../Lembretes/paginaLembretes';
 
-export default function Listagem({ data, deleteItem}) {
+export default function Listagem({ data, deleteItem, userId}) {
 
   const navigation = useNavigation();
 
   function ver(data) {
-    navigation.navigate('EditarCliente', {key: data.key, nome:data.nome, dataNascimento: data.dataNascimento, cpf: data.cpf, matricula: data.matricula, senha: data.senha, convenio:data.convenio, endereço:data.endereço, telefone: data.telefone, comentario:data.comentario, estadoCivil: data.estadoCivil})
+    navigation.navigate('EditarCliente', {key: data.key, nome:data.nome, dataNascimento: data.dataNascimento, cpf: data.cpf, matricula: data.matricula, senha: data.senha, convenio:data.convenio, endereço:data.endereço, telefone: data.telefone, comentario:data.comentario, estadoCivil: data.estadoCivil, userId: userId, id: data.id })
   }
 
   const [nome , setNome] = useState('');
@@ -38,28 +38,6 @@ export default function Listagem({ data, deleteItem}) {
   const [lembrete3, setLembrete3] = useState([]);
   const [loading3, setLoading3] = useState(true);
 
-  useEffect( () => {      
-    async function dados2() {            
-        await firebase.database().ref('clientes').on('value', (snapshot)=> {
-            setClient([]);
-            snapshot.forEach( (childItem) => {            
-                //retornaNome(childItem.key);
-                let data2 = {                        
-                  key: childItem.key,
-                  nome:childItem.val().nome,
-                };
-                setClient(oldArray => [...oldArray, data2]);
-            })
-            setLoading2(false);
-        })
-    }    
-    dados2();
-    //alert("Você tem :" + client.length + " notas!!");
-}, []);
-
-function nome4(){
-nome.slice(0, 1)
-}
 
   return (
     <TouchableWithoutFeedback onLongPress={() => deleteItem(data.key)}> 
