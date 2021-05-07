@@ -4,7 +4,7 @@ import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 
-
+import firestore from '@react-native-firebase/firestore';
 
 
 import Cadastro from '../Clientes/cadastro';
@@ -17,27 +17,30 @@ import PaginaLembretes from './paginaLembretes';
 
 export default function EditarLembrete({route}) {
     const navigation = useNavigation();
-
-    const chaveCliente = route.params?.key;
+    const id = route.params?.id;
+    //const chaveCliente = route.params?.id;
     const [lembrete, setLembrete] = useState(route.params?.lembrete);
+   
+    async function editar(){
+      await firestore().collection('lembretes').doc(id).update({
+        lembrete: lembrete
+      })
+      .then(() => {
+        console.log('edita com sucesso');
+        setLembrete('');
+        navigation.goBack();
+      })
+     
+    }
 
-    /*
-    async function salvar() { 
-      await firebase.database().ref('lembretes').child(chaveCliente).update({
-        lembrete:lembrete
-    });
-      navigation.navigate('Lembretes');
+    async function excluir(){
+      await firestore().collection('lembretes').doc(id).delete().then(() => {
+        alert('excluido');
+        setLembrete('');
+        navigation.goBack();
+      })
     }
-  */
- 
-  /*
-    async function salvar() { 
-      await firebase.database().ref('lembretes').child(chaveCliente).update({
-        lembrete:lembrete
-    });
-      navigation.navigate('Lembretes');
-    }
-  */
+    
     async function voltar(){
       navigation.navigate('Lembretes')
     }
@@ -85,8 +88,14 @@ export default function EditarLembrete({route}) {
             </View>
   
             <View style={styles.viewBotao}>
-                <TouchableOpacity style={styles.botao} onPress={salvar}> 
+                <TouchableOpacity style={styles.botao} onPress={editar}> 
                   <Text style={styles.botaoTexto}>SALVAR</Text>
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.viewBotao}>
+                <TouchableOpacity style={styles.botao} onPress={excluir}> 
+                  <Text style={styles.botaoTexto}>excluir</Text>
                 </TouchableOpacity>
               </View>
   

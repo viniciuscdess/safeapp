@@ -13,15 +13,30 @@ import EditarLembrete from './editarLembrete';
 import AdicionarLembrete from './adicionarLembrete';
 import PaginaLembretes from './paginaLembretes';
 
-export default function Listagem({ data, deleteItem }) { 
+export default function Listagem({ data, deleteItem }) {
   const navigation = useNavigation();
 
-  function ver(){
-    navigation.navigate('EditarLembrete', {key:data.key,lembrete:data.lembrete})
+   function ver(data){
+    navigation.navigate('EditarLembrete', {id:data.id,lembrete:data.lembrete});
   }
 
+  const docId = data.id;
+
+  
+
+  async function excluir(){
+    await firestore().collection('lembretes').doc(docId).delete()
+    .then(() => {
+      console.log('edita com sucesso');
+      alert('foi')
+      
+    })
+  }
+
+  
+
 return (
-  <TouchableWithoutFeedback onLongPress={() => deleteItem(data.key)}> 
+  <TouchableWithoutFeedback onLongPress={deleteItem(docId)}> 
     <View style={styles.container}>
 
         <View style={styles.componente}>
@@ -31,13 +46,20 @@ return (
               <View style={styles.areaTextoNome}>
                   <Text style={styles.textoNome}>{data.nomeCliente}</Text>     
               </View>
+
+            
           </View>
 
           <View style={styles.viewBotaoVer}>
             <TouchableOpacity onPress={() => ver(data)}>
                     <Icon name="chevron-right" color="#000" size={30}/>
             </TouchableOpacity>  
+
+            <TouchableOpacity onPress={excluir}>
+                    <Text>Excluir</Text>
+            </TouchableOpacity>  
           </View>
+
 
         </View> 
     </View>
@@ -68,7 +90,7 @@ const styles = StyleSheet.create({
     fontSize:18,
     fontWeight:'bold',
     color:'#333333',
- 
+    paddingLeft:5
   },
   areaTextoNome:{
     width:'100%'
@@ -76,5 +98,6 @@ const styles = StyleSheet.create({
   textoNome:{
     fontSize:14,
     color:'#000',
+    paddingLeft:5
   },
 });

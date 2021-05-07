@@ -1,4 +1,5 @@
 //cuida de quem vai aparecer (logado) e (deslogado)
+import 'react-native-gesture-handler';
 import React,{useContext, useState} from 'react';
 import { View, ActivityIndicator } from 'react-native';
 

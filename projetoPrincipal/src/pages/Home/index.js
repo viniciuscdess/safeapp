@@ -1,123 +1,110 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback, Text, ScrollView, StatusBar,  TextInput, Image, Keyboard, TouchableOpacity } from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { format } from 'date-fns';
 import firestore from '@react-native-firebase/firestore';
+import {AuthContext} from '../../contexts/auth';
 
 export default function Home() {
+  const {user} = useContext(AuthContext);
+
   const [nome , setNome] = useState('');
   const [input , setInput] = useState('');
 
   const [mostrar, setMostrar] = useState();
   const [newDate, setNewDate] = useState( new Date());
-  const [client, setClient] = useState([]);
+  
   const [loading2, setLoading2] = useState(true);
   const [loading, setLoading] = useState(true);
-  const [lembrete, setLembrete] = useState([]);
+ 
   var hojeMaior = format(newDate, 'dd-MM-yyyy');
   var j = 0;
 
-  const [lembrete3, setLembrete3] = useState([]);
+  
   const [loading3, setLoading3] = useState(true);
 
-
-  /*
+  const [clientes, setClientes] = useState([]);
   useEffect(() => {
-    async function getStorage(){
-      const nomeStorage = await AsyncStorage.getItem('nomes');
-      if(nomeStorage !== null){
-        setNome(nomeStorage);
-      }
-    }
-    getStorage();
-  }, []);
+    const subscriber = firestore()
+    .collection('clientes')
+    .onSnapshot( snapshot => {
+      const clienteList = [];
+      snapshot.forEach(doc => {
+        clienteList.push({
+          autor: doc.autor,
+          ...doc.data(),
+          //pega o id do cliente e nao do usario que esta logado
+          id: doc.id,
+          
+        });
+      });
+      
+      setClientes(clienteList);
+      setLoading(false);
+    })
+    return () => subscriber();
+    
+  }, [clientes])
 
-  useEffect( () => {      
-    async function dados2() {            
-        await firebase.database().ref('clientes').on('value', (snapshot)=> {
-            setClient([]);
-            snapshot.forEach( (childItem) => {            
-                //retornaNome(childItem.key);
-                let data2 = {                        
-                    key: childItem.key
-                
-                };
-                setClient(oldArray => [...oldArray, data2]);
-            })
-            setLoading2(false);
-        })
-    }    
-    dados2();
-    //alert("Você tem :" + client.length + " notas!!");
-}, []);
+  const [lembrete, setLembrete] = useState([]);
+  useEffect(() => {
+    const subscriber = firestore()
+    .collection('lembretes')
+    .orderBy('dataLembrete' , 'asc')
+    .onSnapshot( snapshot => {
+      const lembreteList = [];
+      snapshot.forEach(doc => {
+        lembreteList.push({
+          //pega o id do cliente e nao do usario que esta logado
+          id: doc.id,
+          nomeCliente: retornaNome(doc.id),
+          ...doc.data(), 
+          
+        });
+      });
+      setLembrete(lembreteList);
+      setLoading(false);
+    })
+    return () => subscriber();
+  }, [lembrete]); 
 
-useEffect( () => {          
-  async function dados() {             
-      await firebase.database().ref('lembretes').startAt(hojeMaior.toString()).orderByChild('date').on('value', (snapshot)=> {
-        setLembrete([]);
-          snapshot.forEach( (childItem) => {             
-              let data = {                        
-                  key: childItem.key,
-               //   nome: retornaNome(childItem.key,childItem.val().idcliente,childItem.val().note),
-                  nome: retornaNome(childItem.val().idCliente),
-                  lembrete: childItem.val().lembrete,
-                  dataLembrete: childItem.val().date,
-                                         
-              }; 
-               
-              setLembrete(oldArray => [...oldArray, data]);
-          })
-          setLoading(false);
-      }) 
-  }    
-  dados();
-}, [client]); 
 
-function retornaNome(idCliente){   
-         
-  for(var i=0; i < client.length; i++) {
-      if(client[i].key === idCliente) {
-          if (j === 0){
-              j++;
-          }
-        // let nomes =  client[i].name;
-          return client[i].name;
+
+
+
+  function retornidcliente(idLembrete){
+    for(var i=0; i < lembrete.length; i++) {
+     // alert(clientes[i].id + " - " + idCliente);
+        if(lembrete[i].id === idLembrete) {
+          
+          // let nomes =  client[i].name;
+           //alert("testes " + lembrete[i].idCliente);
+            return lembrete[i].idCliente;
+        }  
+    } 
+  }
+  
+  function retornaNome(idLembrete){   
+    let idCliente = retornidcliente(idLembrete);
+      for(var i=0; i < clientes.length; i++) {
+      //  alert(clientes[i].id + " - " + idCliente);
+          if(clientes[i].id === idCliente) {
+            
+            // let nomes =  client[i].name;
+            //alert("testes " + clientes[i].nome);
+              return clientes[i].nome;
+          }  
       } 
   } 
-}  
 
-useEffect( () => {          
-  async function dados() {             
-      await firebase.database().ref('lembretes').on('value', (snapshot)=> {
-        setLembrete3([]);
-          snapshot.forEach( (childItem) => {             
-              let data3 = {                        
-                  key: childItem.key,
-               //   nome: retornaNome(childItem.key,childItem.val().idcliente,childItem.val().note),
-                  nome: retornaNome(childItem.val().idCliente),
-                  lembrete: childItem.val().lembrete,
-                  dataLembrete: childItem.val().date,
-                                         
-              }; 
-               
-              setLembrete3(oldArray => [...oldArray, data3]);
-          })
-          setLoading3(false);
-      }) 
-  }    
-  dados();
-}, [client]);
+const novaData = new Date();
 
-
-  useEffect(() => {
-    async function saveStorage(){
-      await AsyncStorage.setItem('nomes', nome);
-    }
-    saveStorage();
-  }, [nome])
-
-*/
+function dataHoje(){
+  if(doc.dataLembrete === novaData){
+    lembrete.length
+  }
+}
 
  return (
    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -132,18 +119,18 @@ useEffect( () => {
         <View>
         <View style={styles.viewTexto}> 
           <Text style={styles.texto}>Olá,</Text>
-          <Text style={styles.textoNome}>fixo!</Text>
+          <Text style={styles.textoNome}>{user.nome}!</Text>
         </View>
     
         <View style={styles.numeroDeClientes}>
           <Text style={styles.textoNumeroDeClientes}>Quantidade De Clientes Cadastrados</Text>
-          <Text style={styles.textoNumeroDeClientes2}>fixo</Text>
+          <Text style={styles.textoNumeroDeClientes2}>{clientes.length}</Text>
         </View>
         
         <View style={styles.viewLembretes}>
           <View style={styles.lembretes}>
             <Text style={styles.textoLembretes}>Lembretes</Text>
-            <Text style={styles.textoLembretes2}>fixo</Text>
+            <Text style={styles.textoLembretes2}>{lembrete.length}</Text>
           </View>
     
           <View style={styles.lembretesDiarios}>

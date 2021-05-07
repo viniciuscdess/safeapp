@@ -53,9 +53,26 @@ function StackScreen() {
             name='AdicionarLembrete' component={AdicionarLembrete}
             options={{headerShown:false}}
           />
- 
+
+        </Stack.Navigator>
+  )
+}
+
+function StackScreenLembrete() {
+  return(
+        <Stack.Navigator>
+         <Stack.Screen
+            name='Lembretes' component={PaginaLembretes}
+            options={{headerShown:false}}
+          />
+        
           <Stack.Screen
-            name='EditarLembrete' component={EditarLembrete}
+            name='EditarCliente' component={EditarCliente}
+            options={{headerShown:false}}
+          />
+          
+            <Stack.Screen
+            name='AdicionarLembrete' component={AdicionarLembrete}
             options={{headerShown:false}}
           />
 
@@ -63,11 +80,13 @@ function StackScreen() {
             name='Ajuda' component={Ajuda}
             options={{headerShown:false}}
           />
-          
-          
-         
 
-         
+          <Stack.Screen
+            name='EditarLembrete' component={EditarLembrete}
+            options={{headerShown:false}}
+          />
+          
+          
         </Stack.Navigator>
   )
 }
@@ -102,7 +121,7 @@ function AppRoutes() {
      >
        <Tab.Screen name="Home" component={Home}/>
        <Tab.Screen name="Clientes" component={StackScreen}/>
-       <Tab.Screen name="Lembretes" component={PaginaLembretes}/>
+       <Tab.Screen name="Lembretes" component={StackScreenLembrete}/>
        
       
      </Tab.Navigator>

@@ -47,8 +47,9 @@ export default function PaginaClientes() {
     navigation.navigate('Cadastro')
   }
 
-  async function handleDelete(key, data){
-    //await firebase.database().ref('clientes').child(key).remove();
+  async function handleDelete(key, data, id){
+    await firestore().collection('clientes').doc(id).delete();
+    
     Alert.alert(
       'Cuidado Atenção!',
       `Você realmente deseja excluir??`,
@@ -59,17 +60,19 @@ export default function PaginaClientes() {
       },
       {
         text:'Excluir',
-        onPress:() => handleDeleteSucess(key)
+        onPress:() => handleDeleteSucess(id)
       }
       ]
     )
+    return;
   }
 
-/*
-async function handleDeleteSucess(key,data) {
-  await firebase.database().ref('clientes').child(key).remove();
+
+async function handleDeleteSucess(key,data, id) {
+  await firestore().collection('clientes').doc(id).delete();
+  return;
 }
-*/
+
 
  return (
    <SafeAreaView style={styles.container}>

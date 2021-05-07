@@ -3,39 +3,39 @@ import styled from 'styled-components';
 export const Container = styled.View`
 flex:1;
 background-color:#fff;
+align-items:center;
+justify-content:center;
 `;
 
 export const Header = styled.View`
 width:300px;
 margin:20px;
-flex-direction:row;
 align-items:center;
+justify-content:center;
 `;
 
 export const Componente = styled.View`
 background-color:#fff;
-align-items:flex-start;
-justify-content:center;
 margin-left:5px;
 `;
 
 export const ViewBtn = styled.View`
 background-color:#fff;
 align-items:center;
-justify-content:flex-start;
 `;
 
 export const TituloPrincipal = styled.Text`
 font-size:22;
 color: green;
 font-weight:bold;
+
 `;
 
 export const TextoLogin = styled.Text`
 font-size:25;
 color: #000;
 font-weight:bold;
-margin:10px;
+margin-left:10px;
 `;
 
 export const Input = styled.TextInput`

@@ -94,8 +94,9 @@ export default function PaginaLembretes() {
       } 
   } 
 
-  async function handleDelete(key, data){
-    //await firebase.database().ref('clientes').child(key).remove();
+
+  async function handleDelete(key, data, id){
+    await firestore().collection('lembretes').doc(id).delete();
     Alert.alert(
       'Cuidado Atenção!',
       `Você realmente deseja excluir esse Lembrete??`,
@@ -106,15 +107,21 @@ export default function PaginaLembretes() {
       },
       {
         text:'Excluir',
-        onPress:() => handleDeleteSucess(key)
+        onPress:() => handleDeleteSucess(id)
       }
       ]
     )
   }
 
-  async function handleDeleteSucess(key) {
-   alert('Em manutenção');
+  async function handleDeleteSucess(){
+    await firestore().collection('lembretes').doc(id).delete()
+    .then(() => {
+      console.log('edita com sucesso');
+      alert('foi')
+      
+    })
   }
+
 
 return (
   <SafeAreaView style={styles.container}>

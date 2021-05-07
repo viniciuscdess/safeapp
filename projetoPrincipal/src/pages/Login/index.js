@@ -35,23 +35,16 @@ export default function Login() {
   if(login){
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-       <Container>
+       <Container style={{flex:1}}>
          <StatusBar
              backgroundColor='transparent'
              barStyle='light-content'
              translucent={true} />
-          
-          <Header>
-            <TituloPrincipal>Safe
+                  
+          <Componente>
+          <TituloPrincipal style={{margin:10}}>Safe
               <Text style={{color:'#e52246'}}>App</Text>
             </TituloPrincipal>
-          </Header>
-
-           
-          <Componente>
-            <TextoLogin>
-              Entrar
-            </TextoLogin>
 
             <Input 
             placeholder='digite seu email'
@@ -76,7 +69,7 @@ export default function Login() {
                 ) 
                 : 
                 (
-                    <TextoBotao>Continuar</TextoBotao>
+                    <TextoBotao>Logar</TextoBotao>
                 )
               }
             </Botao>
