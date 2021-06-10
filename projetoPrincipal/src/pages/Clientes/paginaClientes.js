@@ -60,7 +60,7 @@ export default function PaginaClientes() {
       },
       {
         text:'Excluir',
-        onPress:() => handleDeleteSucess(id)
+        onPress:() => excluir(id)
       }
       ]
     )
@@ -68,10 +68,15 @@ export default function PaginaClientes() {
   }
 
 
-async function handleDeleteSucess(key,data, id) {
-  await firestore().collection('clientes').doc(id).delete();
-  return;
-}
+
+  async function excluir(){
+    await firestore().collection('lembretes').doc(docId).delete()
+    .then(() => {
+      console.log('edita com sucesso');
+      alert('Lembrete excluido com sucesso')
+      
+    })
+  }
 
 
  return (

@@ -50,7 +50,8 @@ export default function PaginaLembretes() {
   useEffect(() => {
     const subscriber = firestore()
     .collection('lembretes')
-    .orderBy('dataLembrete' , 'asc')
+   //  .where('lembrete', '>=', '08 de junho de 2021 00:00:00 UTC-3')
+   .orderBy('dataLembrete' , 'asc')
     .onSnapshot( snapshot => {
       const lembreteList = [];
       snapshot.forEach(doc => {

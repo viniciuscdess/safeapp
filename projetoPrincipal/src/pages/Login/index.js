@@ -1,8 +1,8 @@
 import React,{useState, useContext} from 'react';
-import { View, Text, TouchableWithoutFeedback, Keyboard, StatusBar, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, Keyboard, StatusBar, ActivityIndicator,  } from 'react-native';
 
 import {AuthContext} from '../../contexts/auth';
-import {Container, TituloPrincipal, Input, Botao, TextoBotao, Botao2, TextoBotao2, Header, Componente, TextoLogin, ViewBtn} from './styles';
+import {Container, TituloPrincipal, Input, Botao, TextoBotao, Botao2, TextoBotao2, Header, Componente, TextoLogin, ViewBtn, Imagem } from './styles';
 
 export default function Login() {
   const {signUp, loadingAuth, signIn} = useContext(AuthContext);
@@ -42,10 +42,15 @@ export default function Login() {
              translucent={true} />
                   
           <Componente>
-          <TituloPrincipal style={{margin:10}}>Safe
-              <Text style={{color:'#e52246'}}>App</Text>
-            </TituloPrincipal>
 
+          <View style={{flexDirection:'row', alignItems:'center'}}>
+            <TituloPrincipal style={{margin:10,  marginRight:5}}>Safe
+            <Text style={{color:'#e52246', marginRight:5}}>App</Text>
+                
+            </TituloPrincipal>
+            <Imagem resizeMode="contain" source={require('../../Img/nephew.png')}/>
+          </View>
+       
             <Input 
             placeholder='digite seu email'
             value={email}
@@ -77,7 +82,10 @@ export default function Login() {
             <Botao2 onPress={() => toggleLogin()}>
               <TextoBotao2>Criar uma conta</TextoBotao2>
             </Botao2>
+            
             </ViewBtn>
+            
+          
            
        </Container>
       </TouchableWithoutFeedback>
@@ -91,9 +99,13 @@ export default function Login() {
           barStyle='light-content'
           translucent={true} />
 
-        <TituloPrincipal>Safe
-          <Text style={{color:'#e52246'}}>App</Text>
-        </TituloPrincipal>
+          <View style={{flexDirection:'row', alignItems:'center'}}>
+            <TituloPrincipal style={{margin:10,  marginRight:5}}>Safe
+            <Text style={{color:'#e52246', marginRight:5}}>App</Text>
+                
+            </TituloPrincipal>
+            <Imagem resizeMode="contain" source={require('../../Img/nephew.png')}/>
+          </View>
 
 
         <Input 

@@ -21,7 +21,33 @@ export default function Home() {
   var hojeMaior = format(newDate, 'dd-MM-yyyy');
   var j = 0;
 
-  
+//.startAt(hojeMaior.toString())
+
+
+const [lembrete2, setLembrete2] = useState([]);
+useEffect(() => {
+  const subscriber = firestore()
+  .collection('lembretes')
+  .orderBy('dataLembrete' , 'asc')
+  .startAt(hojeMaior.toString())
+  .onSnapshot( snapshot => {
+    const lembreteList = [];
+    snapshot.forEach(doc => {
+      lembreteList.push({
+        //pega o id do cliente e nao do usario que esta logado
+        id: doc.id,
+        nomeCliente: retornaNome(doc.id),
+        ...doc.data(), 
+        
+      });
+    });
+    setLembrete2(lembreteList);
+    setLoading(false);
+  })
+  return () => subscriber();
+}, [lembrete2]);   
+
+
   const [loading3, setLoading3] = useState(true);
 
   const [clientes, setClientes] = useState([]);
@@ -36,7 +62,6 @@ export default function Home() {
           ...doc.data(),
           //pega o id do cliente e nao do usario que esta logado
           id: doc.id,
-          
         });
       });
       
@@ -68,10 +93,6 @@ export default function Home() {
     })
     return () => subscriber();
   }, [lembrete]); 
-
-
-
-
 
   function retornidcliente(idLembrete){
     for(var i=0; i < lembrete.length; i++) {
@@ -107,46 +128,46 @@ function dataHoje(){
 }
 
  return (
-   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <StatusBar
-          backgroundColor='transparent'
-          barStyle='light-content'
-          translucent={true}
-        />
-                
-        <View>
-        <View style={styles.viewTexto}> 
-          <Text style={styles.texto}>Olá,</Text>
-          <Text style={styles.textoNome}>{user.nome}!</Text>
-        </View>
-    
-        <View style={styles.numeroDeClientes}>
-          <Text style={styles.textoNumeroDeClientes}>Quantidade De Clientes Cadastrados</Text>
-          <Text style={styles.textoNumeroDeClientes2}>{clientes.length}</Text>
-        </View>
-        
-        <View style={styles.viewLembretes}>
-          <View style={styles.lembretes}>
-            <Text style={styles.textoLembretes}>Lembretes</Text>
-            <Text style={styles.textoLembretes2}>{lembrete.length}</Text>
-          </View>
-    
-          <View style={styles.lembretesDiarios}>
-            <Text style={styles.textoLembretesDiarios}>Lembretes do Dia</Text>
-            <Text style={styles.textoLembretesDiarios2}>fixo</Text>
-          </View>
-        </View>
-    
-        <View style={styles.viewImg}>
-          <Image style={styles.img} resizeMode="contain" source={require('../../Img/Finances.png')}/>
-        </View> 
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+  <View style={styles.container}>
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <StatusBar
+        backgroundColor='transparent'
+        barStyle='light-content'
+        translucent={true}
+      />
+              
+      <View>
+      <View style={styles.viewTexto}> 
+        <Text style={styles.texto}>Olá,</Text>
+        <Text style={styles.textoNome}> ! </Text>
       </View>
-        
-      </ScrollView>
+  
+      <View style={styles.numeroDeClientes}>
+        <Text style={styles.textoNumeroDeClientes}>Quantidade De Clientes Cadastrados</Text>
+        <Text style={styles.textoNumeroDeClientes2}>{clientes.length}</Text>
+      </View>
+      
+      <View style={styles.viewLembretes}>
+        <View style={styles.lembretes}>
+          <Text style={styles.textoLembretes}>Lembretes</Text>
+          <Text style={styles.textoLembretes2}>{lembrete.length}</Text>
+        </View>
+  
+        <View style={styles.lembretesDiarios}>
+          <Text style={styles.textoLembretesDiarios}>Lembretes do Dia</Text>
+          <Text style={styles.textoLembretesDiarios2}>{lembrete2.length}</Text>
+        </View>
+      </View>
+  
+      <View style={styles.viewImg}>
+        <Image style={styles.img} resizeMode="contain" source={require('../../Img/Finances.png')}/>
+      </View> 
     </View>
-   </TouchableWithoutFeedback>
+      
+    </ScrollView>
+  </View>
+ </TouchableWithoutFeedback>
   );
 }
 

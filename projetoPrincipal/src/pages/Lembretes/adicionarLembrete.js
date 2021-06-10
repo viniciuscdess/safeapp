@@ -8,16 +8,6 @@ import { format, getDate, getDay } from 'date-fns';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 
-
-
-import Cadastro from '../Clientes/cadastro';
-import EditarCliente from '../Clientes/editarCliente';
-import PaginaClientes from '../Clientes/paginaClientes';
-
-import EditarLembrete from './editarLembrete';
-import Listagem from './listagem';
-import PaginaLembretes from './paginaLembretes';
-
 import {AuthContext} from '../../contexts/auth';
 
 console.disableYellowBox=true;
@@ -29,6 +19,9 @@ export default function AdicionarLembrete({ route }) {
   const [nome, setNome] = useState('');
   const chaveCliente = route.params?.id;
   const name = route.params?.nome;
+
+  const [newDate, setNewDate] = useState( new Date());
+  var hojeMaior = format(newDate, 'dd-MM-yyyy');
 
 
 
@@ -64,6 +57,7 @@ export default function AdicionarLembrete({ route }) {
     await firestore().collection('lembretes')
    .add({
     dataLembrete: new Date(data),
+  //  dataLembrete:  firebase.firestore.Timestamp.fromDate(new Date(data)),
     autor: user.nome,
     userId: user.uid,
     idCliente : chaveCliente,

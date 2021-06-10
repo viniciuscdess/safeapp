@@ -45,11 +45,13 @@ function StackScreen() {
             name='EditarCliente' component={EditarCliente}
             options={{headerShown:false}}
           />
+
           <Stack.Screen
             name='Cadastro' component={Cadastro}
             options={{headerShown:false}}
           />
-            <Stack.Screen
+
+          <Stack.Screen
             name='AdicionarLembrete' component={AdicionarLembrete}
             options={{headerShown:false}}
           />
@@ -61,8 +63,15 @@ function StackScreen() {
 function StackScreenLembrete() {
   return(
         <Stack.Navigator>
+
+          
          <Stack.Screen
             name='Lembretes' component={PaginaLembretes}
+            options={{headerShown:false}}
+          />
+
+          <Stack.Screen
+            name='Clientes' component={PaginaClientes}
             options={{headerShown:false}}
           />
         

@@ -26,9 +26,9 @@ align-items:center;
 
 export const TituloPrincipal = styled.Text`
 font-size:22;
-color: green;
+color: #16A085;
 font-weight:bold;
-
+margin:10px;
 `;
 
 export const TextoLogin = styled.Text`
@@ -50,7 +50,7 @@ export const Botao = styled.TouchableOpacity`
 width:300px;
 align-items:center;
 justify-content:center;
-background-color:green;
+background-color:#16A085;
 height:45px;
 border-radius:25px;
 margin:10px;
@@ -69,4 +69,9 @@ margin:15px;
 export const TextoBotao2 = styled.Text`
 font-size:14px;
 color:#000;
+`;
+
+export const Imagem = styled.Image`
+width:30px;
+height:30px;
 `;

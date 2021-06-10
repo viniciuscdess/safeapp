@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet,TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet,TouchableOpacity, TouchableWithoutFeedback, Alert } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import { format } from 'date-fns';
-
-
-
-
+import firestore from '@react-native-firebase/firestore';
 import EditarCliente from './editarCliente';
 import PaginaClientes from './paginaClientes';
 import Cadastro from './cadastro';
@@ -15,32 +12,49 @@ import AdicionarLembrete from '../Lembretes/adicionarLembrete';
 import EditarLembrete from '../Lembretes/editarLembrete';
 import PaginaLembretes from '../Lembretes/paginaLembretes';
 
-export default function Listagem({ data, deleteItem, userId}) {
+export default function Listagem({ data, userId}) {
 
   const navigation = useNavigation();
+  const [newDate, setNewDate] = useState( new Date());
+
+  var hojeMaior = format(newDate, 'dd-MM-yyyy');
+
 
   function ver(data) {
     navigation.navigate('EditarCliente', {key: data.key, nome:data.nome, dataNascimento: data.dataNascimento, cpf: data.cpf, matricula: data.matricula, senha: data.senha, convenio:data.convenio, endereço:data.endereço, telefone: data.telefone, comentario:data.comentario, estadoCivil: data.estadoCivil, userId: userId, id: data.id })
   }
 
-  const [nome , setNome] = useState('');
-  const [input , setInput] = useState('');
+  async function handleDelete(key, data, id){
+    Alert.alert(
+      'Cuidado Atenção!',
+      `Você realmente deseja excluir esse Lembrete??`,
+      [
+      {
+        text: 'Cancelar',
+        style: 'cancel'
+      },
+      {
+        text:'Excluir',
+        onPress:() => excluir(docId)
+      }
+      ]
+    )
+  }
 
-  const [mostrar, setMostrar] = useState();
-  const [newDate, setNewDate] = useState( new Date());
-  const [client, setClient] = useState([]);
-  const [loading2, setLoading2] = useState(true);
-  const [loading, setLoading] = useState(true);
-  const [lembrete, setLembrete] = useState([]);
-  var hojeMaior = format(newDate, 'dd-MM-yyyy');
-  var j = 0;
-
-  const [lembrete3, setLembrete3] = useState([]);
-  const [loading3, setLoading3] = useState(true);
-
+  const docId = data.id;
+  
+  async function excluir(){
+    await firestore().collection('clientes').doc(docId).delete()
+    .then(() => {
+      console.log('edita com sucesso');
+      alert('Cliente excluido com sucesso')
+      
+    })
+    
+  }
 
   return (
-    <TouchableWithoutFeedback onLongPress={() => deleteItem(data.id)}> 
+    <TouchableWithoutFeedback onLongPress={handleDelete}> 
       <View style={styles.container}>
         <View style={styles.componente}>
 
@@ -57,7 +71,13 @@ export default function Listagem({ data, deleteItem, userId}) {
             <TouchableOpacity onPress={() => ver(data)} style={styles.botaoVer}>
                   <Icon name="chevron-right" color="#000" size={30} />
             </TouchableOpacity>
+
+            
           </View>
+
+          <TouchableOpacity  style={styles.botaoVer}>
+                  <Text style={{color:'#000' , fontSize:30}}>excluir</Text>
+            </TouchableOpacity>
           
         </View>
       </View>
