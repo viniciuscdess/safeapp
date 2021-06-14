@@ -140,7 +140,7 @@ function dataHoje(){
       <View>
       <View style={styles.viewTexto}> 
         <Text style={styles.texto}>Olá,</Text>
-        <Text style={styles.textoNome}> ! </Text>
+        <Text style={styles.textoNome}> {user.nome}! </Text>
       </View>
   
       <View style={styles.numeroDeClientes}>

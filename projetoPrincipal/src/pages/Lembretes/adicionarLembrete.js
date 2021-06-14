@@ -23,10 +23,10 @@ export default function AdicionarLembrete({ route }) {
   const [newDate, setNewDate] = useState( new Date());
   var hojeMaior = format(newDate, 'dd-MM-yyyy');
 
-
-
   const [clientes , setClientes] = useState([]);
   const [loading , setLoading] = useState(true);
+
+
 
 
   const {user} = useContext(AuthContext);
@@ -74,39 +74,14 @@ export default function AdicionarLembrete({ route }) {
    setData('');
 }
 
-
-
-
-/*
-  async function testar(){
-        await firestore().collection('lembretes')
-       .add({
-        dataLembrete: new Date(data),
-        autor: user.nome,
-        userId: user.uid,
-        idCliente : chaveCliente
-       })
-       .then(() => {
-           console.log('Post criado');
-       })
-       .catch((error) => {
-           console.log(error);
-       })
-       navigation.navigate('PaginaLembretes');
-       setLembrete('');
-       setData('');
-    }
-*/
-
-
-
   function ajuda(){
       navigation.navigate('Ajuda');
     }
 
 
    function voltar(){
-    navigation.navigate('EditarCliente')
+    navigation.navigate('EditarCliente');
+
   }
 
   return (
