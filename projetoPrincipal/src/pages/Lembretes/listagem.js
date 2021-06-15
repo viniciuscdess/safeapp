@@ -41,6 +41,11 @@ export default function Listagem({ data, deleteItem }) {
     })
   }
 
+
+
+  const diaHoje = format(new Date(), 'dd/mm/yyyy')
+  const newDate = new Date();
+
 function chamaHoje(){
   let newDate = new Date();
   let hojeMaior = format(newDate, 'MM/dd/yy')
@@ -53,7 +58,7 @@ function chamaHoje(){
 
  function converterData(dataTimeStamp){
   let hojee =  chamaHoje() ;
-  let d     = new Date(dataTimeStamp._seconds * 1000).toLocaleDateString('en-GB' );
+  let d     = new Date( dataTimeStamp._seconds * 1000).toLocaleDateString('en-GB');
 
  if( d.toString() == hojee.toString() ) {
     return true;
@@ -78,7 +83,7 @@ return (
 
                   <View style={{flexDirection:'row', alignItems:'center', marginTop:2}}>
                     <View style={{backgroundColor:'#16A085', width:40, height:40, borderRadius:50, alignItems:'center', justifyContent:'center'}}> 
-                      <Text style={{fontSize:23, fontWeight:'bold', color:'#fff'}}> 0 </Text>
+                      <Text style={{fontSize:20, fontWeight:'bold', color:'#fff'}}> {diaHoje.slice(0,2)} </Text>
                     </View>
                     <Text style={styles.texto}>{data.lembrete}</Text>
                     

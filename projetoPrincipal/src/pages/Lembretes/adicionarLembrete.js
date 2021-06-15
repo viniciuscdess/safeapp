@@ -4,7 +4,7 @@ import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import DatePicker from 'react-native-datepicker';
-import { format, getDate, getDay } from 'date-fns';
+import { addHours, format, getDate, getDay } from 'date-fns';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 
@@ -56,7 +56,7 @@ export default function AdicionarLembrete({ route }) {
   async function salvar(){
     await firestore().collection('lembretes')
    .add({
-    dataLembrete: new Date(data),
+    dataLembrete: new Date(data), 
   //  dataLembrete:  firebase.firestore.Timestamp.fromDate(new Date(data)),
     autor: user.nome,
     userId: user.uid,
