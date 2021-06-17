@@ -93,11 +93,7 @@ export default function EditarLembrete({route}) {
                 </TouchableOpacity>
               </View>
 
-              <View style={styles.viewBotao}>
-                <TouchableOpacity style={styles.botao} onPress={excluir}> 
-                  <Text style={styles.botaoTexto}>excluir</Text>
-                </TouchableOpacity>
-              </View>
+           
   
           </ScrollView>
         </View>

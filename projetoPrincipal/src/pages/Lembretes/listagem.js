@@ -48,7 +48,7 @@ export default function Listagem({ data, deleteItem }) {
 
 function chamaHoje(){
   let newDate = new Date();
-  let hojeMaior = format(newDate, 'MM/dd/yy')
+  let hojeMaior = format(newDate, 'MM/dd/yy');
 
   let hoje = hojeMaior ;
 
@@ -57,17 +57,18 @@ function chamaHoje(){
 
 
  function converterData(dataTimeStamp){
-  let hojee =  chamaHoje() ;
-  let d     = new Date( dataTimeStamp._seconds * 1000).toLocaleDateString('en-GB');
 
- if( d.toString() == hojee.toString() ) {
+  let d     = new Date( dataTimeStamp._seconds * 1000).toLocaleDateString('ban', 'id');
+  let diadeHoje = format(new Date(),  'MM/dd/yy');
+
+ if( d.toString() == diadeHoje.toString() ) {
     return true;
   }
 
  }
 
-function lembrar(lembrando){
-  var lembrando = lembrando(data.dataLembrete)
+function lembrar(dataTimeStamp){
+
 }
 
 return (
@@ -82,9 +83,12 @@ return (
                 <View  style={styles.areaTexto}>
 
                   <View style={{flexDirection:'row', alignItems:'center', marginTop:2}}>
-                    <View style={{backgroundColor:'#16A085', width:40, height:40, borderRadius:50, alignItems:'center', justifyContent:'center'}}> 
-                      <Text style={{fontSize:20, fontWeight:'bold', color:'#fff'}}> {diaHoje.slice(0,2)} </Text>
+
+                    <View style={styles.viewDia}> 
+                      <Text style={{fontSize:20, fontWeight:'bold', color:'#fff'}}> {diaHoje.slice(0,2)}</Text>
                     </View>
+
+
                     <Text style={styles.texto}>{data.lembrete}</Text>
                     
                   </View>
@@ -148,4 +152,14 @@ const styles = StyleSheet.create({
     color:'#000',
     paddingLeft:5
   },
+  viewDia:{
+    backgroundColor:'#16A085', 
+    width:40, 
+    height:40, 
+    borderRadius:50, 
+    alignItems:'center',
+    justifyContent:'center',
+    paddingRight:5
+
+  }
 });

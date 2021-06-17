@@ -133,8 +133,8 @@ export default function Cadastro() {
             backgroundColor:'#fff'}}
           date={dataNascimento}
           value={dataNascimento}
-          format="DD-MM-YYYY"
-          minDate="01-01-1920"
+          format='DD/MM/yy'
+          minDate="10-01-1900"
           maxDate="31-12-2021"
           onDateChange={setDataNascimento}
         />

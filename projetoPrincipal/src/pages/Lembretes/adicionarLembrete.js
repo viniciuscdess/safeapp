@@ -13,23 +13,22 @@ import {AuthContext} from '../../contexts/auth';
 console.disableYellowBox=true;
 
 export default function AdicionarLembrete({ route }) {
+
   const navigation = useNavigation();
-  const [data, setData] = useState();
+  const {user} = useContext(AuthContext);
+
   const [lembrete, setLembrete] = useState('');
   const [nome, setNome] = useState('');
+  const [data, setData] = useState();
+  const [clientes , setClientes] = useState([]);
+  const [loading , setLoading] = useState(true);
+
   const chaveCliente = route.params?.id;
   const name = route.params?.nome;
 
   const [newDate, setNewDate] = useState( new Date());
   var hojeMaior = format(newDate, 'dd-MM-yyyy');
 
-  const [clientes , setClientes] = useState([]);
-  const [loading , setLoading] = useState(true);
-
-
-
-
-  const {user} = useContext(AuthContext);
 
   useEffect(() => {
     const subscriber = firestore()
@@ -51,7 +50,7 @@ export default function AdicionarLembrete({ route }) {
 
     return () => subscriber();
 
-  }, [])
+  }, []);
 
   async function salvar(){
     await firestore().collection('lembretes')
@@ -64,14 +63,14 @@ export default function AdicionarLembrete({ route }) {
     lembrete: lembrete
    })
    .then(() => {
-       console.log('Post criado');
+       alert('Lembrete criado com sucesso!');
+      setLembrete('');
+      setData('');
    })
    .catch((error) => {
        console.log(error);
    })
-   navigation.navigate('Lembretes');
-   setLembrete('');
-   setData('');
+   navigation.navigate('Clientes');
 }
 
   function ajuda(){
@@ -107,7 +106,7 @@ export default function AdicionarLembrete({ route }) {
           </View>
 
           <View style={styles.viewInput}>
-              <Text style={styles.titulos}>Adicionando um lembrete para</Text> 
+              <Text style={styles.titulos}>Adicionar um lembrete para : </Text> 
               <Text style={styles.titulos2}>  {name}  </Text>
             <TextInput
               multiline = {true}
@@ -119,19 +118,23 @@ export default function AdicionarLembrete({ route }) {
               value={lembrete}
               onChangeText={(texto) => setLembrete(texto)}
               autoCapitalize = 'sentences'
+              returnKeyType='next'
+              autoCorrect={false}
             />      
 
-            <Text style={styles.textoData}>Data Do lembrete: GMT-3</Text>
+            <Text style={styles.textoData}>Data: (01)mes/(01)dia/ano(21)</Text>
             <TextInput
               multiline = {true}
               numberOfLines = {4}
               maxLength={50}
               style={styles.inputData}
               underlineColorAndroid='transparent'
-              placeholder='Ex: data/mes(letra)/ano/GMT-3'
+              placeholder='Ex: mes/dia/ano'
               value={data}
               onChangeText={(texto) => setData(texto)}
               autoCapitalize = 'sentences'
+              returnKeyType='next'
+              autoCorrect={false}
             />      
           </View>
           
@@ -175,12 +178,12 @@ const styles = StyleSheet.create({
     color:'#fff',
   },
   tituloPrincipal:{
-    fontSize:30,
+    fontSize:28,
     fontWeight:'bold',
     color:'#fff',
   },
   titulos:{
-    fontSize:22,
+    fontSize:20,
     color:'#333333',
     fontWeight:'bold',
     marginRight:10,
@@ -188,7 +191,7 @@ const styles = StyleSheet.create({
     marginTop:2
   },
   titulos2:{
-    fontSize:22,
+    fontSize:18,
     color:'#333333',
     fontWeight:'bold',
     marginRight:10,
