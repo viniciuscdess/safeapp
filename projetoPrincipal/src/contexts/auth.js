@@ -89,7 +89,7 @@ export const AuthContext = createContext({});
  return (
      //!! ele olha dentro de de user e se nao tiver nada (ngm logad) ele le como falso se tiver algo dentro le como true
      //signUp metodo para criar conta(cadastro)
-   <AuthContext.Provider value={{signed: !!user, user, signUp, signIn, loadingAuth}}>
+   <AuthContext.Provider value={{signed: !!user, user, signUp, signIn, loadingAuth, loading}}>
        {children}
    </AuthContext.Provider>
   );

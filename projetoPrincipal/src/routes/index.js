@@ -9,8 +9,8 @@ import AuthRoutes from './auth.routes';
 import AppRoutes from './app.routes';
 
 function Routes() {
-   const {signed} = useContext(AuthContext);
-    const loading = false;
+   const {signed , loading} = useContext(AuthContext);
+   
      
     
     
@@ -20,9 +20,9 @@ function Routes() {
                 flex:1,
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: '#36393F'
+                backgroundColor: '#fff'
             }}>
-            <ActivityIndicator size={50} color="#e52246" />
+            <ActivityIndicator size={50} color="#16A085" />
         </View>
        )
     }
