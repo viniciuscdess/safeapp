@@ -41,7 +41,7 @@ margin-left:10px;
 export const Input = styled.TextInput`
 font-size:14px;
 border-bottom-width:1px;
-width:350px;
+width:320px;
 height:45px;
 margin-left:10px;
 `;

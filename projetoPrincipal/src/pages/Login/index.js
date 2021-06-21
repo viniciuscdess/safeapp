@@ -44,7 +44,7 @@ export default function Login() {
           <Componente>
 
           <View style={{flexDirection:'row', alignItems:'center'}}>
-            <TituloPrincipal style={{margin:10,  marginRight:5}}>Safe
+            <TituloPrincipal>Safe
             <Text style={{color:'#e52246', marginRight:5}}>App</Text>
                 
             </TituloPrincipal>
@@ -99,19 +99,20 @@ export default function Login() {
           barStyle='light-content'
           translucent={true} />
 
-          <View style={{flexDirection:'row', alignItems:'center'}}>
-            <TituloPrincipal style={{margin:10,  marginRight:5}}>Safe
-            <Text style={{color:'#e52246', marginRight:5}}>App</Text>
-                
-            </TituloPrincipal>
-            <Imagem resizeMode="contain" source={require('../../Img/nephew.png')}/>
-          </View>
+      <Componente>
 
+      <View style={{flexDirection:'row', alignItems:'center'}}>
+        <TituloPrincipal>Safe
+        <Text style={{color:'#e52246', marginRight:5}}>App</Text>
+            
+        </TituloPrincipal>
+        <Imagem resizeMode="contain" source={require('../../Img/nephew.png')}/>
+      </View>
 
         <Input 
-          placeholder='digite seu nome'
-          value={name}
-          onChangeText={(text) => setName(text)}
+        placeholder='digite seu name'
+        value={name}
+        onChangeText={(text) => setName(text)}
         />
 
         <Input 
@@ -125,6 +126,7 @@ export default function Login() {
         value={password}
         onChangeText={(text) => setPassword(text)}
         secureTextEntry={true}/>
+      </Componente>
 
         <Botao onPress={handleSignUp}>
         {
