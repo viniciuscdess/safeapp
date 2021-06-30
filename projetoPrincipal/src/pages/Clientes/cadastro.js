@@ -1,25 +1,17 @@
-import React, {useState, useEffect, useContext} from 'react';
-import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, StatusBar} from 'react-native';
+import React, {useState, useEffect, useContext, useRef} from 'react';
+import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, StatusBar, Keyboard} from 'react-native';
+
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {useNavigation} from '@react-navigation/native';
 import DatePicker from 'react-native-datepicker';
 import { TextInputMask } from 'react-native-masked-text';
 import {Picker} from '@react-native-picker/picker';
+
+import api from '../../services/api';
 import Icon from 'react-native-vector-icons/Feather';
 import firestore from '@react-native-firebase/firestore';
-
-
-
 import {AuthContext} from '../../contexts/auth';
-
-import EditarCliente from './editarCliente';
-import Listagem from './listagem';
-import PaginaClientes from './paginaClientes';
-
-import AdicionarLembrete from '../Lembretes/adicionarLembrete';
-import EditarLembrete from '../Lembretes/editarLembrete';
-import PaginaLembretes from '../Lembretes/paginaLembretes';
-
+import { func } from 'prop-types';
 
 export default function Cadastro() {
   const [estadoCivil, setEstadoCivil] = useState();
@@ -36,6 +28,10 @@ export default function Cadastro() {
   
   const {user} = useContext(AuthContext);
 
+
+  const [cep, setCep] = useState('');
+  const inputRef = useRef(null);
+  const [cepUser, setCepUser] = useState(null);
 
   //const [time, setTime] = useState('');
   //var timeStamp = new Date(time);
@@ -85,6 +81,31 @@ export default function Cadastro() {
     navigation.navigate('Clientes');
   }
 
+  async function BuscarCep(){
+    if(cep == ''){
+      alert('Digite um cep valido');
+      setCep('');
+      return; //
+    }
+
+    try{
+      
+      const response = await api.get(`/${cep}/json`);
+      console.log(response.data);
+      setCepUser(response.data);
+      Keyboard.dismiss(); //Garantir que o teclado sera fechado!
+      
+    }catch(error){
+      console.log('ERROR: ' + error);
+    }
+  }
+
+  function LimparCep(){
+    setCep('');
+    inputRef.current.focus();
+    setCepUser(null);
+  }
+  
  return (
     <View style={styles.container}>
       <ScrollView
@@ -225,20 +246,38 @@ export default function Cadastro() {
       </View>
       
       <Text style={styles.subTitulos}>Endereço</Text>
-
       <Text style={styles.titulos}>Logradouro:</Text>
-      <TextInput
-        style={styles.input}
-        underlineColorAndroid='transparent'
-        placeholder='Ex: Avenida Arthur Thomas 213'
-        value={endereço}
-        onChangeText={(texto) => setEndereço(texto)}
-        autoCapitalize = 'sentences'
-        returnKeyType='next'
-        placeholderTextColor='#ddd'
-        maxLength={300}
-        autoCorrect={false}
-      />
+
+      <View style={{flexDirection:'row'}}>
+        <TextInput
+          style={styles.inputCep}
+          underlineColorAndroid='transparent'
+          placeholder='Ex: 86063-250'
+          value={cep}
+          onChangeText={(texto) => setCep(texto)}
+          keyboardType="numeric"
+          ref={inputRef}
+          placeholderTextColor='#ddd'
+          maxLength={300}
+          autoCorrect={false}
+        />
+        <TouchableOpacity style={styles.botaoCep2} onPress={BuscarCep}>
+          <Text style={styles.textoBuscadorCep}>Buscar</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.botaoCep} onPress={LimparCep}>
+          <Text style={styles.textoBuscadorCep}>Limpar</Text>
+        </TouchableOpacity>       
+      </View>
+      { cepUser &&
+        <View style={styles.viewCep}>
+          <Text style={styles.textoCep}>CEP: {cepUser.cep}</Text>
+          <Text style={styles.textoCep}>Logradouro: {cepUser.logradouro}</Text>
+          <Text style={styles.textoCep}>Bairro: {cepUser.bairro}</Text>
+          <Text style={styles.textoCep}>Cidade: {cepUser.localidade}</Text>
+          <Text style={styles.textoCep}>Estado: {cepUser.uf}</Text>
+        </View>
+      }
 
       <Text style={styles.subTitulos}>Oberservaçao</Text>
       
@@ -371,5 +410,47 @@ const styles = StyleSheet.create({
     borderRadius:9,
     justifyContent:'center',
     height:45
-  }
+  },
+  botaoCep:{
+    marginRight:2 ,
+    backgroundColor:'#900',
+    width: 65,
+    borderRadius:5,
+    alignItems:'center',
+    justifyContent:'center'
+    
+  },
+  botaoCep2:{
+    marginRight:2 ,
+    width: 65,
+    backgroundColor:'#000077',
+    borderRadius:5,
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  textoBuscadorCep:{
+    fontWeight:'700',
+    fontSize:15,
+    color: '#fff'
+  },
+  inputCep:{
+    width: 230,
+    borderWidth:0.70,
+    borderRadius:5,
+    marginLeft: 15,
+    marginRight:5,
+    height: 40
+  },
+  viewCep:{
+    width: 300,
+    height: 120,
+    marginLeft: 5,
+    marginTop:5,
+  },
+  textoCep:{
+    fontSize:16,
+    color:'#000',
+    marginLeft:15,
+    marginTop:2,
+  },
 })
